@@ -77,10 +77,5 @@ CHICHA is built with a modern web stack to ensure a smooth, responsive, and secu
 
 ---
 
-## Design
-The original design for this project can be found on [Figma](https://www.figma.com/design/b9jBqtd9Z9WXAhxJ1Gqu2D/Oinky-Bank).
-
----
-
 ## License
 This project is for hackathon demonstration purposes. All assets and code are owned by the original contributors.
