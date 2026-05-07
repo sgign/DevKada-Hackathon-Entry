@@ -145,6 +145,11 @@ export default function App() {
   const [streak, setStreak] = useState(57);
   const [overBudgetDays, setOverBudgetDays] = useState(0);
 
+  // Settings state
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [showAboutModal, setShowAboutModal] = useState(false);
+
   // Farms state
   const [farms, setFarms] = useState<Farm[]>([
     {
@@ -1363,21 +1368,37 @@ export default function App() {
 
                 <div className="divide-y-2 divide-[#E8D5B7]">
                   {/* Notification Settings */}
-                  <button className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group">
+                  <button 
+                    onClick={() => setNotificationsEnabled(!notificationsEnabled)}
+                    className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group"
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-lg">🔔</span>
-                      <span className="text-[10px] text-[#3E2723]">Notification Settings</span>
+                      <div className="flex-1">
+                        <p className="text-[10px] text-[#3E2723]">Notification Settings</p>
+                        <p className="text-[8px] text-[#6D4C41]">{notificationsEnabled ? 'Enabled' : 'Disabled'}</p>
+                      </div>
                     </div>
-                    <span className="text-[#8D6E63] group-hover:text-[#D2691E]">›</span>
+                    <div className={`w-8 h-4 rounded-full border-2 border-[#3E2723] relative transition-colors ${notificationsEnabled ? 'bg-[#81C784]' : 'bg-[#E8D5B7]'}`}>
+                      <div className={`absolute top-0.5 w-2 h-2 bg-white rounded-full transition-all ${notificationsEnabled ? 'right-0.5' : 'left-0.5'}`} />
+                    </div>
                   </button>
 
                   {/* Audio Settings */}
-                  <button className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group">
+                  <button 
+                    onClick={() => setAudioEnabled(!audioEnabled)}
+                    className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group"
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-lg">🔊</span>
-                      <span className="text-[10px] text-[#3E2723]">Audio Settings</span>
+                      <div className="flex-1">
+                        <p className="text-[10px] text-[#3E2723]">Audio Settings</p>
+                        <p className="text-[8px] text-[#6D4C41]">{audioEnabled ? 'Enabled' : 'Disabled'}</p>
+                      </div>
                     </div>
-                    <span className="text-[#8D6E63] group-hover:text-[#D2691E]">›</span>
+                    <div className={`w-8 h-4 rounded-full border-2 border-[#3E2723] relative transition-colors ${audioEnabled ? 'bg-[#81C784]' : 'bg-[#E8D5B7]'}`}>
+                      <div className={`absolute top-0.5 w-2 h-2 bg-white rounded-full transition-all ${audioEnabled ? 'right-0.5' : 'left-0.5'}`} />
+                    </div>
                   </button>
 
                   {/* Account Settings */}
@@ -1399,7 +1420,10 @@ export default function App() {
                   </button>
 
                   {/* About the Creator */}
-                  <button className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group">
+                  <button 
+                    onClick={() => setShowAboutModal(true)}
+                    className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group"
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-lg">ℹ️</span>
                       <span className="text-[10px] text-[#3E2723]">About the Creator</span>
@@ -1611,6 +1635,45 @@ export default function App() {
                 save ✓
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {/* About Modal */}
+      {showAboutModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setShowAboutModal(false)} />
+          <div className="relative bg-[#FFF9E6] border-4 border-[#3E2723] rounded-xl shadow-[8px_8px_0_0_#6D4C41] w-full max-w-sm p-6 space-y-4">
+            <div className="text-center space-y-2">
+              <div className="w-20 h-20 bg-[#A8D5BA] border-4 border-[#3E2723] rounded-xl mx-auto flex items-center justify-center mb-4">
+                <img src={pigAvatar} alt="Logo" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
+              </div>
+              <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723]">CHICHA</h2>
+              <p className="text-[9px] text-[#6D4C41]">The Pixel-Perfect Piggy Bank</p>
+            </div>
+
+            <div className="bg-white border-3 border-[#8D6E63] rounded-lg p-4 space-y-3">
+              <div>
+                <p className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] mb-1">CREATOR</p>
+                <p className="text-[10px] text-[#D2691E]">Debug Chewy Cookie</p>
+              </div>
+              <div>
+                <p className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] mb-1">VERSION</p>
+                <p className="text-[10px] text-[#6D4C41]">v1.0.0-hackathon</p>
+              </div>
+              <div>
+                <p className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] mb-1">DESCRIPTION</p>
+                <p className="text-[8px] text-[#3E2723] leading-relaxed">
+                  Built for the DevKada Hackathon. A gamified financial tracker designed to make saving fun through pixel art and AI-powered insights.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowAboutModal(false)}
+              className="w-full bg-[#3E2723] hover:bg-[#6D4C41] border-4 border-[#3E2723] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[10px] text-[#A8D5BA] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            >
+              CLOSE
+            </button>
           </div>
         </div>
       )}
