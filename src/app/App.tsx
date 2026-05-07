@@ -1418,8 +1418,8 @@ export default function App() {
             {[
               { id: 'home', icon: Home, label: 'Home' },
               { id: 'log', icon: PlusCircle, label: 'Log' },
-              { id: 'debt', icon: Receipt, label: 'Debt' },
               { id: 'farm', icon: Users, label: 'Farm' },
+              { id: 'debt', icon: Receipt, label: 'Debt' },
               { id: 'profile', icon: User, label: 'Profile' }
             ].map(({ id, icon: Icon, label }) => (
               <button
