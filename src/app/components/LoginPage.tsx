@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import pigAvatar from '../../imports/Neutral-1.png';
+import logo from '../../imports/Logo.png';
 
 interface LoginPageProps {
   onLogin: (username: string, isSignup: boolean) => Promise<string | null>;
@@ -39,11 +39,11 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
       <div className="z-10 w-full max-w-sm flex flex-col items-center">
         {/* Logo/Icon */}
         <div className="mb-8 flex flex-col items-center">
-          <div className="w-24 h-24 bg-[#FFB6C1] border-4 border-[#3E2723] rounded-2xl flex items-center justify-center mb-4 shadow-[4px_4px_0_0_#6D4C41]">
-            <img src={pigAvatar} alt="Piggy" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
+          <div className="w-24 h-24 border-4 border-[#3E2723] rounded-2xl flex items-center justify-center mb-4 shadow-[4px_4px_0_0_#6D4C41] overflow-hidden">
+            <img src={logo} alt="Chicha" className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
           </div>
           <h1 className="font-['Press_Start_2P'] text-xl text-[#3E2723] text-center leading-relaxed">
-            PIGGY BANK<br/>PET
+            CHICHA
           </h1>
         </div>
 

@@ -747,7 +747,7 @@ export default function App() {
         <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🐷</span>
-            <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">PIGGY BANK</span>
+            <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1 bg-[#FFD966] px-2 py-1 rounded border-2 border-[#3E2723] shadow-[2px_2px_0_0_#3E2723]">
@@ -920,7 +920,7 @@ export default function App() {
               <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">🐷</span>
-                  <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">PIGGY BANK</span>
+                  <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1 bg-[#FFD966] px-2 py-1 rounded border-2 border-[#3E2723] shadow-[2px_2px_0_0_#3E2723]">
