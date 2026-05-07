@@ -172,10 +172,35 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext('2d')?.drawImage(video, 0, 0);
+
+    // --- Image Preprocessing for better OCR ---
+    const TARGET_WIDTH = 1000;
+    const scale = TARGET_WIDTH / video.videoWidth;
+    const targetHeight = Math.round(video.videoHeight * scale);
+
+    // Step 1: Draw video frame at scaled resolution
+    canvas.width = TARGET_WIDTH;
+    canvas.height = targetHeight;
+    const ctx = canvas.getContext('2d')!;
+    ctx.drawImage(video, 0, 0, TARGET_WIDTH, targetHeight);
     stopCamera();
+
+    // Step 2: Grayscale + Contrast boost via pixel manipulation
+    const imageData = ctx.getImageData(0, 0, TARGET_WIDTH, targetHeight);
+    const data = imageData.data;
+    const CONTRAST = 1.8; // 1.0 = no change, >1 = more contrast
+    const INTERCEPT = 128 * (1 - CONTRAST);
+
+    for (let i = 0; i < data.length; i += 4) {
+      // Grayscale using human-eye luminance weights
+      const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+      // Apply contrast: stretch away from midpoint (128)
+      const contrasted = Math.min(255, Math.max(0, CONTRAST * gray + INTERCEPT));
+      data[i] = data[i + 1] = data[i + 2] = contrasted;
+      // alpha (data[i+3]) unchanged
+    }
+    ctx.putImageData(imageData, 0, 0);
+
     setStep('scanning');
     setOcrProgress(0);
 
