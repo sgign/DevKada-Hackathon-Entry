@@ -1,11 +1,17 @@
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-  apiKey: import.meta.env.VITE_GROQ_API_KEY,
+const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+
+const groq = apiKey ? new Groq({
+  apiKey: apiKey,
   dangerouslyAllowBrowser: true // Since we are in a Vite frontend
-});
+}) : null;
 
 export async function parseTransaction(message: string) {
+  if (!groq) {
+    console.warn("Groq API key is missing. AI features will not work.");
+    throw new Error("AI features are currently unavailable.");
+  }
   const systemPrompt = `
 You are a financial assistant for a piggy bank app called CHICHA. 
 Your task is to extract transaction details from user input.
