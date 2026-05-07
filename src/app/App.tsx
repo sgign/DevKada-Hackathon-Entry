@@ -747,7 +747,7 @@ export default function App() {
         {/* Top Bar */}
         <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
           <div className="flex items-center gap-2">
-            <img src={smallPigIcon} alt="pig" className="w-6 h-6" style={{ imageRendering: 'pixelated' }} />
+            <img src={smallPigIcon} alt="pig" className="h-6 w-auto object-contain" style={{ imageRendering: 'pixelated' }} />
             <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
           </div>
           <div className="flex items-center gap-4">
@@ -920,7 +920,7 @@ export default function App() {
               {/* Top Bar */}
               <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
                 <div className="flex items-center gap-2">
-                  <img src={smallPigIcon} alt="pig" className="w-6 h-6" style={{ imageRendering: 'pixelated' }} />
+                  <img src={smallPigIcon} alt="pig" className="h-6 w-auto object-contain" style={{ imageRendering: 'pixelated' }} />
                   <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
                 </div>
                 <div className="flex items-center gap-4">
