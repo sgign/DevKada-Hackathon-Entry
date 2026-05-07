@@ -1139,53 +1139,6 @@ export default function App() {
               </div>
 
 
-
-              {/* Goals & Savings */}
-              <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
-                <div className="bg-[#A8D5BA] px-4 py-2 border-b-4 border-[#8D6E63]">
-                  <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">GOALS & SAVINGS</h3>
-                </div>
-                <div className="p-4 space-y-3">
-                  {selectedFarm.pigGoals.map((goal, i) => {
-                    if (!goal) return null;
-                    const percentage = Math.min((goal.savedAmount / goal.targetAmount) * 100, 100);
-                    return (
-                      <div 
-                        key={i} 
-                        onClick={() => setSelectedPigIndex(i)}
-                        className="bg-[#FFF9E6] hover:bg-[#FFD966]/20 border-3 border-[#8D6E63] rounded-lg p-3 cursor-pointer transition-colors"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg">{goal.emoji}</span>
-                            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] truncate">{goal.name}</span>
-                          </div>
-                          <span className="text-[8px] text-[#6D4C41] shrink-0">
-                            ₱{goal.savedAmount.toLocaleString()} / ₱{goal.targetAmount.toLocaleString()}
-                          </span>
-                        </div>
-                        <div className="h-3 bg-[#E8D5B7] rounded border-2 border-[#8D6E63] overflow-hidden">
-                          <div 
-                            className={`h-full ${goal.color || 'bg-[#81C784]'} transition-all`} 
-                            style={{ width: `${percentage}%` }} 
-                          />
-                        </div>
-                        <p className="text-[7px] text-[#6D4C41] mt-1 text-right">
-                          {Math.round(percentage)}% complete
-                        </p>
-                      </div>
-                    );
-                  })}
-
-                  <button 
-                    onClick={() => setShowAddGoalModal(true)}
-                    className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-                  >
-                    + add goal
-                  </button>
-                </div>
-              </div>
-
               {/* Settings Section */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
                 <div className="bg-[#FFD966] px-4 py-2 border-b-4 border-[#8D6E63]">
