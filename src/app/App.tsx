@@ -1081,14 +1081,17 @@ export default function App() {
         <ReceiptScannerModal
           onClose={() => setShowScannerModal(false)}
           onScanComplete={(data) => {
-             handleAddExpense({
-               amount: data.amount,
-               category: data.category,
-               wallet: Object.keys(walletBalances)[0] || 'Cash',
-               description: data.description,
-               categoryEmoji: '🍔'
-             });
-             setShowScannerModal(false);
+            // Extract emoji from description if present (e.g. "🍔 Jollibee Receipt")
+            const emojiMatch = data.description.match(/^(\p{Emoji})/u);
+            const categoryEmoji = emojiMatch ? emojiMatch[1] : '🧾';
+            handleAddExpense({
+              amount: data.amount,
+              category: data.category,
+              wallet: Object.keys(walletBalances)[0] || 'Cash',
+              description: data.description,
+              categoryEmoji,
+            });
+            setShowScannerModal(false);
           }}
         />
       )}
