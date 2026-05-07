@@ -26,7 +26,7 @@ interface ScannedResult {
 }
 
 // Lines that should NOT be treated as purchasable items
-const SKIP_KEYWORDS = /total|subtotal|sub-total|vat|tax|discount|change|your change|tendered|cash tendered|cash|credit|payment|receipt|invoice|balance|due|amount|paid|thankyou|thank you|welcome|date|time|cashier|#|tel|address|www\.|\.com|php|official|qty|quantity|pcs|unit/i;
+const SKIP_KEYWORDS = /total|subtotal|sub-total|vat|tax|discount|change|your change|tendered|cash tendered|cash|credit|payment|receipt|invoice|balance|due|amount|paid|thankyou|thank you|welcome|date|time|cashier|#|tel|address|www\.|\.com|php|official|qty|quantity|pcs|unit|ref|reference|trace|approval|auth|or no/i;
 
 // -----------------------------------------------------------------------
 // Regex-based fallback parser (used if Gemini API is unavailable)
@@ -120,12 +120,13 @@ async function geminiParseReceiptText(ocrText: string): Promise<ScannedResult> {
 STRICT EXCLUSIONS (Do not include these):
 Header Noise: Shop names, branch locations, addresses, or phone numbers.
 Metadata: Date, time, terminal IDs, or cashier names.
-Transaction Details: Reference numbers, Invoice numbers, Approval codes, or Trace IDs.
+Transaction Details: Reference numbers (e.g., Ref No., OR No., Trace No., purely numeric strings), Invoice numbers, Approval codes, or Trace IDs.
 Tax/Fees: VAT (Value Added Tax), Service Charges, Surcharges, or Discounts.
 Totals: Subtotals, Grand Totals, Cash tendered, or Change.
 
 EXTRACTION RULES:
 Identify the Product/Service Description and its Final Line Price.
+Do NOT include any transaction reference numbers, OR numbers, or trace numbers as items. If an item looks like a receipt or reference number, ignore it entirely.
 Categorize each item into: [Food, Transportation, Utilities, Shopping, health, Fun].
 If an item has a quantity (e.g., "3 @ 10.00"), return the description and the total for that line (30.00).
 
