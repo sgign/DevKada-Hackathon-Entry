@@ -115,16 +115,23 @@ const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined
 async function geminiParseReceiptText(ocrText: string): Promise<ScannedResult> {
   if (!GEMINI_API_KEY) throw new Error('No Gemini API key');
 
-  const systemPrompt = `You are an expert financial data extraction parser. I will provide you with raw, messy OCR text from a receipt.
+  const systemPrompt = `Task: Act as a specialized Receipt Data Parser. I will provide raw OCR text. Your goal is to extract only individual expense items and their final prices.
 
-Your Rules:
-1. Extract ONLY the product names and their unit prices.
-2. Filter out ALL noise: IGNORE shop names, VAT, tax, subtotal, total, change amounts, dates, times, phone numbers, and payment methods.
-3. Categorize each item into exactly one of these categories: Food, Transportation, Utilities, Personal, Others.
-4. Return ONLY a raw JSON array of objects — no markdown, no explanation — in this exact shape:
-[
-  { "name": "string", "price": number, "category": "string" }
-]`;
+STRICT EXCLUSIONS (Do not include these):
+Header Noise: Shop names, branch locations, addresses, or phone numbers.
+Metadata: Date, time, terminal IDs, or cashier names.
+Transaction Details: Reference numbers, Invoice numbers, Approval codes, or Trace IDs.
+Tax/Fees: VAT (Value Added Tax), Service Charges, Surcharges, or Discounts.
+Totals: Subtotals, Grand Totals, Cash tendered, or Change.
+
+EXTRACTION RULES:
+Identify the Product/Service Description and its Final Line Price.
+Categorize each item into: [Food, Transportation, Utilities, Shopping, health, Fun].
+If an item has a quantity (e.g., "3 @ 10.00"), return the description and the total for that line (30.00).
+
+OUTPUT FORMAT (JSON Only):
+Return an array of objects. Do not include any conversational text.
+[{"item": "Item Name", "price": 0.00, "category": "CategoryName"}]`;
 
   const body = {
     contents: [
@@ -157,7 +164,7 @@ Your Rules:
   // Map to our internal types
   const items: LineItem[] = parsedArray.map((item: any, i: number) => ({
     id: i,
-    name: String(item.name),
+    name: String(item.item || item.name || ''),
     price: Number(item.price) || 0,
     category: String(item.category || 'Others'),
   }));
@@ -182,7 +189,9 @@ Your Rules:
     'Food': '🍔',
     'Transportation': '🚗',
     'Utilities': '💡',
-    'Personal': '🛍️',
+    'Shopping': '🛍️',
+    'health': '💊',
+    'Fun': '🎉',
     'Others': '🧾'
   };
 
@@ -466,7 +475,7 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
                 {items.map(item => (
                   <div key={item.id} className="flex items-center gap-2 px-3 py-2">
                     <span title={item.category || 'Others'} className="text-xs cursor-help">
-                      {item.category === 'Food' ? '🍔' : item.category === 'Transportation' ? '🚗' : item.category === 'Utilities' ? '💡' : item.category === 'Personal' ? '🛍️' : '🧾'}
+                      {item.category === 'Food' ? '🍔' : item.category === 'Transportation' ? '🚗' : item.category === 'Utilities' ? '💡' : item.category === 'Shopping' ? '🛍️' : item.category === 'health' ? '💊' : item.category === 'Fun' ? '🎉' : '🧾'}
                     </span>
                     <input
                       type="text"
