@@ -19,6 +19,8 @@ import { AddWalletModal } from './components/AddWalletModal';
 import { ReceiptScannerModal } from './components/ReceiptScannerModal';
 import { WalletDetailModal } from './components/WalletDetailModal';
 import { CalendarPage } from './components/CalendarPage';
+import { SubscriptionsSection } from './components/SubscriptionsSection';
+import { AddSubscriptionModal } from './components/AddSubscriptionModal';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
 import farmScene from '../imports/farm__no_pigs_.png';
@@ -68,6 +70,17 @@ interface Farm {
   pigGoals: PigGoal[];
 }
 
+interface Subscription {
+  id: number;
+  name: string;
+  amount: number;
+  category: string;
+  categoryEmoji: string;
+  wallet: string;
+  billingDay: number;
+  lastBilledDate?: string; // ISO date of last billing
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [showExpenseModal, setShowExpenseModal] = useState(false);
@@ -84,6 +97,7 @@ export default function App() {
   const [completedDebt, setCompletedDebt] = useState<Debt | null>(null);
   const [coins, setCoins] = useState(67);
   const [streak, setStreak] = useState(57);
+  const [overBudgetDays, setOverBudgetDays] = useState(0);
 
   // Farms state
   const [farms, setFarms] = useState<Farm[]>([
@@ -208,6 +222,56 @@ export default function App() {
     foodLevel: 75,
     mood: 'content'
   });
+
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([
+    { id: 1, name: 'Netflix', amount: 549, category: 'Entertainment', categoryEmoji: '🎬', wallet: 'GCash', billingDay: 15 },
+    { id: 2, name: 'Spotify', amount: 149, category: 'Entertainment', categoryEmoji: '🎵', wallet: 'GCash', billingDay: 1 }
+  ]);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  // Auto-log subscriptions
+  useEffect(() => {
+    const today = new Date();
+    const currentDay = today.getDate();
+
+    const subscriptionsToBill = subscriptions.filter(sub => {
+      if (currentDay < sub.billingDay) return false;
+      if (sub.lastBilledDate) {
+        const lastDate = new Date(sub.lastBilledDate);
+        if (lastDate.getFullYear() === today.getFullYear() && lastDate.getMonth() === today.getMonth()) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    if (subscriptionsToBill.length > 0) {
+      subscriptionsToBill.forEach(sub => {
+        const newTransaction: Transaction = {
+          id: Date.now() + Math.random(),
+          category: sub.categoryEmoji,
+          description: `Subscription: ${sub.name}`,
+          wallet: sub.wallet,
+          amount: sub.amount,
+          time: 'Just now (Auto)',
+          type: 'expense'
+        };
+
+        setTransactions(prev => [newTransaction, ...prev]);
+        setWalletBalances(prev => ({
+          ...prev,
+          [sub.wallet]: (prev[sub.wallet] || 0) - sub.amount
+        }));
+      });
+
+      setSubscriptions(prev => prev.map(sub => {
+        if (subscriptionsToBill.find(s => s.id === sub.id)) {
+          return { ...sub, lastBilledDate: today.toISOString() };
+        }
+        return sub;
+      }));
+    }
+  }, [subscriptions]);
 
   // Handle expense submission
   const handleAddExpense = (expenseData: {
@@ -394,6 +458,26 @@ export default function App() {
     setShowAddGoalModal(false);
   };
 
+  const handleAddSubscription = (subData: {
+    name: string;
+    amount: number;
+    category: string;
+    categoryEmoji: string;
+    wallet: string;
+    billingDay: number;
+  }) => {
+    const newSub: Subscription = {
+      id: Date.now(),
+      ...subData
+    };
+    setSubscriptions(prev => [...prev, newSub]);
+    setShowSubscriptionModal(false);
+  };
+
+  const handleDeleteSubscription = (id: number) => {
+    setSubscriptions(prev => prev.filter(sub => sub.id !== id));
+  };
+
   // Helper for dynamic wallet styles
   const getWalletStyle = (name: string, index: number) => {
     if (walletMetadata[name]) {
@@ -440,6 +524,40 @@ export default function App() {
     if (hour < 12) return 'morning';
     if (hour < 18) return 'afternoon';
     return 'evening';
+  };
+
+  const handleDeleteTransaction = (id: number) => {
+    const transactionToDelete = transactions.find(t => t.id === id);
+    if (!transactionToDelete) return;
+
+    // 1. Revert wallet balance
+    setWalletBalances(prev => {
+      const currentBalance = prev[transactionToDelete.wallet] || 0;
+      let newBalance = currentBalance;
+      if (transactionToDelete.type === 'expense' || transactionToDelete.type === 'debt_payment') {
+        newBalance += transactionToDelete.amount;
+      } else if (transactionToDelete.type === 'income') {
+        newBalance -= transactionToDelete.amount;
+      }
+      return { ...prev, [transactionToDelete.wallet]: newBalance };
+    });
+
+    // 2. If it's a debt payment, revert the debt paidAmount
+    if (transactionToDelete.type === 'debt_payment') {
+      const debtName = transactionToDelete.description.replace('Debt payment: ', '');
+      setDebts(prev => prev.map(debt => {
+        if (debt.name === debtName) {
+          return { ...debt, paidAmount: Math.max(0, debt.paidAmount - transactionToDelete.amount) };
+        }
+        return debt;
+      }));
+    }
+
+    // 3. Remove the transaction
+    setTransactions(prev => prev.filter(t => t.id !== id));
+    
+    // 4. (Optional) Show confirmation
+    // toast.success('Transaction deleted'); // If toast is available
   };
 
   // Calculate monthly statistics
@@ -541,7 +659,18 @@ export default function App() {
               <PigDisplay 
                 state={pigState} 
                 dailyBudget={{ spent: monthlyStats.totalSpent, total: budget.daily.total }} 
+                overBudgetDays={overBudgetDays}
               />
+
+              {/* Simulation Control (For Hackathon Demo) */}
+              <div className="flex justify-center gap-2">
+                <button 
+                  onClick={() => setOverBudgetDays((prev) => (prev + 1) % 4)}
+                  className="bg-[#3E2723]/10 hover:bg-[#3E2723]/20 px-3 py-1 rounded-full text-[8px] font-['Press_Start_2P'] transition-colors"
+                >
+                  🔄 Cycle Pig State ({overBudgetDays} days over)
+                </button>
+              </div>
 
 
               {/* Wallet Cards Grid */}
@@ -639,8 +768,18 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Subscriptions Section */}
+              <SubscriptionsSection 
+                subscriptions={subscriptions}
+                onAddSubscription={() => setShowSubscriptionModal(true)}
+                onDeleteSubscription={handleDeleteSubscription}
+              />
+
               {/* Recent Transactions */}
-              <RecentTransactions transactions={transactions} />
+              <RecentTransactions 
+                transactions={transactions} 
+                onDeleteTransaction={handleDeleteTransaction}
+              />
             </div>
           ))}
 
@@ -1093,6 +1232,13 @@ export default function App() {
             });
             setShowScannerModal(false);
           }}
+        />
+      )}
+
+      {showSubscriptionModal && (
+        <AddSubscriptionModal 
+          onClose={() => setShowSubscriptionModal(false)}
+          onSubmit={handleAddSubscription}
         />
       )}
     </div>
