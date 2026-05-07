@@ -1,48 +1,52 @@
-# CHICHA: Feed Your Future
+# 🐷 CHICHA: Feed Your Future
 
-**Chicha** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience, Chicha helps users build better spending habits and reach their financial goals.
+**CHICHA** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience and AI-driven insights, CHICHA helps users build better spending habits and reach their financial goals.
 
 **🚀 Live Demo: [https://debugchewycookie-chicha.vercel.app/](https://debugchewycookie-chicha.vercel.app/)**
 
 ---
 
-## Features
+## ✨ Features
 
-### Gamified Budgeting
-Your financial health is directly tied to your **Chicha**—your virtual piggy bank pet. Stay within your budget to keep your Chicha happy and healthy. Overspending might make your pig look a little grumpy!
+### 🎮 Gamified Budgeting & Habit Building
+Your financial health is directly tied to your **Chicha**—your virtual piggy bank pet. The app is built to transform the chore of budgeting into a rewarding game:
+- **Emotional Feedback**: Stay within your budget to keep your Chicha happy and healthy. Overspending makes your pig grumpy, providing immediate emotional feedback on your spending habits.
+- **Positive Reinforcement**: Earn coins and maintain streaks by logging expenses daily, turning consistency into a fun challenge.
 
-### The Farm & Savings Goals
+### 🤖 AI-Powered Financial Intelligence
+CHICHA uses advanced AI to simplify your financial life:
+- **AI Chat Bar**: Powered by Groq, simply tell Chicha what you spent (e.g., "Spent 200 on lunch at McDo"), and it will automatically categorize and log the transaction. No more tedious manual entry.
+- **Personalized Financial Advice**: Get real-time, actionable advice from Chicha. Based on your spending patterns, Chicha will offer tips on how to save more and spend smarter.
+
+### 🚜 The Farm & Savings Goals
 Every savings goal you create is represented by a pig in your virtual farm. Watch your farm grow as you set new targets and save more money.
 - **Collaborative Farms**: Team up with friends or family to reach shared savings goals.
 - **Progress Tracking**: Visual progress bars show how close you are to completing each goal.
 
-### Smart Expense Logging
-- **AI Chat Bar**: Simply tell Chicha what you spent (e.g., "Spent 200 on lunch at McDo"), and it will automatically categorize and log the transaction.
-- **Receipt Scanner**: Use the built-in OCR (Optical Character Recognition) to scan physical receipts and log expenses in seconds.
+### 📸 Smart Logging Tools
+- **Receipt Scanner**: Use built-in OCR to scan physical receipts and log expenses in seconds.
+- **Comprehensive Wallet Management**: Track multiple accounts including Cash, GCash, Maya, and various bank accounts (BPI, BDO, Landbank).
 
-### Comprehensive Financial Tools
-- **Wallet Management**: Track multiple accounts including Cash, GCash, Maya, and various bank accounts (BPI, BDO, Landbank).
-- **Debt Tracker**: Manage your liabilities with a dedicated debt tracker, complete with payment history and completion milestones.
+### 💳 Liabilities & Recurring Costs
+- **Debt Tracker**: Manage your liabilities with a dedicated tracker, complete with payment history and completion milestones.
 - **Subscription Manager**: Never forget a recurring payment. Keep track of all your active subscriptions in one place.
-
-### Social & Rewards
-- **Leaderboards**: Compete with others on saving streaks and financial milestones.
-- **Daily Streaks**: Build a streak by logging your expenses daily and earn coins to customize your experience.
 
 ---
 
-## How It Works
+## 🛠️ How It Works
 
-#### Web Stack:
+CHICHA is built with a modern web stack to ensure a smooth, responsive, and secure experience:
 
 - **Frontend**: [React](https://reactjs.org/) with [Vite](https://vitejs.dev/)
+- **AI Engine**: [Groq SDK](https://groq.com/) for lightning-fast natural language processing and financial advice.
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Backend & Auth**: [Supabase](https://supabase.com/) 
 - **OCR**: [Tesseract.js](https://tesseract.projectnaptha.com/) 
 - **Animations**: [Framer Motion](https://www.framer.com/motion/) and [Canvas Confetti](https://github.com/catdad/canvas-confetti) 
+
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v16 or higher recommended)
@@ -62,10 +66,11 @@ Every savings goal you create is represented by a pig in your virtual farm. Watc
    ```
 
 3. **Environment Variables**:
-   Create a `.env` file in the root directory and add your Supabase credentials:
+   Create a `.env` file in the root directory and add your credentials:
    ```env
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   VITE_GROQ_API_KEY=your_groq_api_key
    ```
 
 4. **Run the development server**:
@@ -78,5 +83,10 @@ Every savings goal you create is represented by a pig in your virtual farm. Watc
 
 ---
 
-## License
+## 🎨 Design
+The original design for this project can be found on [Figma](https://www.figma.com/design/b9jBqtd9Z9WXAhxJ1Gqu2D/Oinky-Bank).
+
+---
+
+## 📝 License
 This project is for hackathon demonstration purposes. All assets and code are owned by the original contributors.
