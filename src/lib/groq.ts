@@ -72,3 +72,41 @@ Return ONLY a JSON object in this format:
     throw error;
   }
 }
+
+export async function getSpendingAdvice(transactions: any[]) {
+  if (!groq) throw new Error("AI features are currently unavailable.");
+
+  const summaryData = transactions.map(t => ({
+    type: t.type,
+    amount: t.amount,
+    category: t.category,
+    description: t.description
+  }));
+
+  const systemPrompt = `
+You are a witty and helpful financial coach for a piggy bank app.
+Analyze the user's recent transactions and provide:
+1. A quick summary of their spending behavior.
+2. 3 actionable tips to save more money.
+3. A motivational "pig-themed" quote.
+
+Keep the advice concise, encouraging, and easy to read. 
+Use Markdown for formatting.
+`;
+
+  try {
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: `Here are my recent transactions: ${JSON.stringify(summaryData)}` }
+      ],
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+    });
+
+    return chatCompletion.choices[0]?.message?.content || "I couldn't analyze your data right now. Keep saving!";
+  } catch (error) {
+    console.error("Error getting advice from Groq:", error);
+    return "The financial coach is taking a nap. Try again later!";
+  }
+}

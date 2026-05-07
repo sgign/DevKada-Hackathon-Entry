@@ -25,6 +25,7 @@ import { AddSubscriptionModal } from './components/AddSubscriptionModal';
 import { LoginPage } from './components/LoginPage';
 import { MiniLeaderboard } from './components/MiniLeaderboard';
 import { AIChatBar } from './components/AIChatBar';
+import { AISpendingAdvice } from './components/AISpendingAdvice';
 import { supabase } from '../lib/supabase';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
@@ -999,6 +1000,9 @@ export default function App() {
                   </button>
                 </div>
               </div>
+
+              {/* AI Spending Advice */}
+              <AISpendingAdvice transactions={transactions} />
 
               {/* Subscriptions Section */}
               <SubscriptionsSection 
