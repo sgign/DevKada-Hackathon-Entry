@@ -1,6 +1,6 @@
 # CHICHA: Feed Your Future
 
-**Chicha** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience, CHICHA helps users build better spending habits and reach their financial goals.
+**Chicha** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience, Chicha helps users build better spending habits and reach their financial goals.
 
 ---
 
@@ -15,7 +15,7 @@ Every savings goal you create is represented by a pig in your virtual farm. Watc
 - **Progress Tracking**: Visual progress bars show how close you are to completing each goal.
 
 ### Smart Expense Logging
-- **AI Chat Bar**: Simply tell CHICHA what you spent (e.g., "Spent 200 on lunch at McDo"), and it will automatically categorize and log the transaction.
+- **AI Chat Bar**: Simply tell Chicha what you spent (e.g., "Spent 200 on lunch at McDo"), and it will automatically categorize and log the transaction.
 - **Receipt Scanner**: Use the built-in OCR (Optical Character Recognition) to scan physical receipts and log expenses in seconds.
 
 ### Comprehensive Financial Tools
@@ -31,14 +31,13 @@ Every savings goal you create is represented by a pig in your virtual farm. Watc
 
 ## How It Works
 
-CHICHA is built with a modern web stack to ensure a smooth, responsive, and secure experience:
+#### Web Stack:
 
-- **Frontend**: [React](https://reactjs.org/) with [Vite](https://vitejs.dev/) for a lightning-fast development experience.
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) for a beautiful, responsive, and pixel-art themed UI.
-- **Backend & Auth**: [Supabase](https://supabase.com/) handles user authentication and data persistence.
-- **OCR**: [Tesseract.js](https://tesseract.projectnaptha.com/) powers the receipt scanning feature.
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) and [Canvas Confetti](https://github.com/catdad/canvas-confetti) for delightful user interactions.
-
+- **Frontend**: [React](https://reactjs.org/) with [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Backend & Auth**: [Supabase](https://supabase.com/) 
+- **OCR**: [Tesseract.js](https://tesseract.projectnaptha.com/) 
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) and [Canvas Confetti](https://github.com/catdad/canvas-confetti) 
 ---
 
 ## Getting Started
