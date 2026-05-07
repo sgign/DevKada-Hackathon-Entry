@@ -675,23 +675,35 @@ export default function App() {
     setSubscriptions(prev => prev.filter(sub => sub.id !== id));
   };
 
-  const handleDeleteWallet = (walletName: string) => {
-    // 1. Remove from balances
+  const handleDeleteWallet = (name: string) => {
+    if (!window.confirm(`Are you sure you want to delete the account "${name}"? All data associated with this account will be removed.`)) {
+      return;
+    }
     setWalletBalances(prev => {
-      const next = { ...prev };
-      delete next[walletName];
-      return next;
+      const newBalances = { ...prev };
+      delete newBalances[name];
+      return newBalances;
     });
-
-    // 2. Remove from metadata
     setWalletMetadata(prev => {
-      const next = { ...prev };
-      delete next[walletName];
-      return next;
+      const newMetadata = { ...prev };
+      delete newMetadata[name];
+      return newMetadata;
     });
+    if (selectedWallet === name) setSelectedWallet(null);
+  };
 
-    // 3. Clear selected wallet
-    setSelectedWallet(null);
+  const handleDeleteGoal = (goalName: string) => {
+    setFarms(prev => prev.map(farm => {
+      if (farm.id === selectedFarmId) {
+        return {
+          ...farm,
+          numPigs: Math.max(0, farm.numPigs - 1),
+          pigGoals: farm.pigGoals.filter(g => g.name !== goalName)
+        };
+      }
+      return farm;
+    }));
+    setShowGoalModal(null);
   };
 
   // Helper for dynamic wallet styles
@@ -1480,6 +1492,7 @@ export default function App() {
           goal={selectedFarm.pigGoals[selectedPigIndex]}
           onClose={() => setSelectedPigIndex(null)}
           onAddMoney={() => setShowAddMoneyToGoalModal(true)}
+          onDelete={() => handleDeleteGoal(selectedFarm.pigGoals[selectedPigIndex].name)}
         />
       )}
 

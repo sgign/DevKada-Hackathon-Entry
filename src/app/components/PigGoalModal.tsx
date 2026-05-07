@@ -11,11 +11,18 @@ interface PigGoalModalProps {
   };
   onClose: () => void;
   onAddMoney: () => void;
+  onDelete: () => void;
 }
 
-export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney }: PigGoalModalProps) {
+export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }: PigGoalModalProps) {
   const percentage = (goal.savedAmount / goal.targetAmount) * 100;
   const remaining = goal.targetAmount - goal.savedAmount;
+
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete the goal "${goal.name}"? This pig will be removed from your farm.`)) {
+      onDelete();
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
@@ -108,6 +115,13 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney }: PigGoalMo
               <span>💰</span> FEED PIG
             </button>
           </div>
+
+          <button
+            onClick={handleDelete}
+            className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] border-4 border-[#3E2723] rounded-lg py-2 font-['Press_Start_2P'] text-[7px] text-white shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+          >
+            DELETE GOAL
+          </button>
         </div>
       </div>
     </div>
