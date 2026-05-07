@@ -1,6 +1,6 @@
-# 🐷 CHICHA
+# CHICHA: Feed Your Future
 
-**CHICHA** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience, CHICHA helps users build better spending habits and reach their financial goals.
+**Chicha** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience, CHICHA helps users build better spending habits and reach their financial goals.
 
 ---
 
@@ -51,8 +51,8 @@ CHICHA is built with a modern web stack to ensure a smooth, responsive, and secu
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/sgign/DevKada-Hackathon-Entry.git
-   cd DevKada-Hackathon-Entry
+   git clone https://github.com/sgign/debugchewycookie-chicha.git
+   cd debugchewycookie-chicha
    ```
 
 2. **Install dependencies**:
