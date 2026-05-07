@@ -22,6 +22,7 @@ import { CalendarPage } from './components/CalendarPage';
 import { SubscriptionsSection } from './components/SubscriptionsSection';
 import { AddSubscriptionModal } from './components/AddSubscriptionModal';
 import { LoginPage } from './components/LoginPage';
+import { supabase } from '../lib/supabase';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
 import farmScene from '../imports/farm__no_pigs_.png';
@@ -81,6 +82,13 @@ interface Subscription {
   billingDay: number;
   lastBilledDate?: string; // ISO date of last billing
 }
+
+const ZERO_FARMS: Farm[] = [{ id: 1, name: "My Farm", type: 'solo', numPigs: 0, pigGoals: [] }];
+const ZERO_WALLET_BALANCES: Record<string, number> = { 'Cash': 0, 'GCash': 0 };
+const ZERO_TRANSACTIONS: Transaction[] = [];
+const ZERO_DEBTS: Debt[] = [];
+const ZERO_SUBSCRIPTIONS: Subscription[] = [];
+const ZERO_BUDGET = { daily: { total: 600 }, monthly: { total: 18000 } };
 
 export default function App() {
   const [authState, setAuthState] = useState<'login' | 'guest' | 'user'>('login');
@@ -215,7 +223,7 @@ export default function App() {
   ]);
 
   // Budget totals (user-defined limits)
-  const [budget] = useState({
+  const [budget, setBudget] = useState({
     daily: { total: 600 },
     monthly: { total: 18000 }
   });
@@ -231,6 +239,117 @@ export default function App() {
     { id: 2, name: 'Spotify', amount: 149, category: 'Entertainment', categoryEmoji: '🎵', wallet: 'GCash', billingDay: 1 }
   ]);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  const handleUserLogin = async (name: string, isGuest: boolean, isSignup = false): Promise<string | null> => {
+    try {
+      if (isGuest) {
+        setWalletBalances(ZERO_WALLET_BALANCES);
+        setTransactions(ZERO_TRANSACTIONS);
+        setDebts(ZERO_DEBTS);
+        setFarms(ZERO_FARMS);
+        setSubscriptions(ZERO_SUBSCRIPTIONS);
+        setCoins(0);
+        setStreak(0);
+        setBudget(ZERO_BUDGET);
+        setSelectedFarmId(1);
+        setUsername('Guest');
+        setAuthState('guest');
+        return null;
+      }
+
+      const isSupabaseConfigured = !!import.meta.env.VITE_SUPABASE_URL;
+      let userData = null;
+
+      if (isSupabaseConfigured) {
+        const { data, error } = await supabase
+          .from('users_data')
+          .select('data')
+          .eq('username', name)
+          .maybeSingle();
+
+        if (isSignup) {
+          if (data) return 'Account already exists! Please log in.';
+        } else {
+          if (!data && name.toLowerCase() !== 'shane') return 'Account not found. Please create a profile.';
+          userData = data?.data;
+        }
+      } else {
+        const usersStr = localStorage.getItem('piggybank_users');
+        const users = usersStr ? JSON.parse(usersStr) : {};
+        if (isSignup) {
+          if (users[name]) return 'Account already exists! Please log in.';
+        } else {
+          if (!users[name] && name.toLowerCase() !== 'shane') return 'Account not found. Please create a profile.';
+          userData = users[name];
+        }
+      }
+
+      if (userData) {
+        setWalletBalances(userData.walletBalances || ZERO_WALLET_BALANCES);
+        setTransactions(userData.transactions || ZERO_TRANSACTIONS);
+        setDebts(userData.debts || ZERO_DEBTS);
+        setFarms(userData.farms || ZERO_FARMS);
+        setSubscriptions(userData.subscriptions || ZERO_SUBSCRIPTIONS);
+        setCoins(userData.coins || 0);
+        setStreak(userData.streak || 0);
+        setBudget(userData.budget || ZERO_BUDGET);
+        if (userData.farms && userData.farms.length > 0) {
+          setSelectedFarmId(userData.farms[0].id);
+        }
+      } else {
+        if (name.toLowerCase() === 'shane' && !isSignup) {
+          // Keep default demo data initially present in states
+        } else {
+          setWalletBalances(ZERO_WALLET_BALANCES);
+          setTransactions(ZERO_TRANSACTIONS);
+          setDebts(ZERO_DEBTS);
+          setFarms(ZERO_FARMS);
+          setSubscriptions(ZERO_SUBSCRIPTIONS);
+          setCoins(0);
+          setStreak(0);
+          setBudget(ZERO_BUDGET);
+          setSelectedFarmId(1);
+        }
+      }
+
+      setUsername(name);
+      setAuthState('user');
+      return null;
+    } catch (e) {
+      console.error(e);
+      return 'A network error occurred.';
+    }
+  };
+
+  // Save to localStorage/Supabase whenever relevant state changes
+  useEffect(() => {
+    if (authState === 'login' || authState === 'guest') return;
+
+    const dataToSave = {
+      walletBalances,
+      transactions,
+      debts,
+      farms,
+      subscriptions,
+      coins,
+      streak,
+      budget
+    };
+
+    const isSupabaseConfigured = !!import.meta.env.VITE_SUPABASE_URL;
+
+    if (isSupabaseConfigured) {
+      supabase.from('users_data').upsert({ username, data: dataToSave })
+        .then(({ error }) => { if (error) console.error('Supabase save error:', error); });
+    }
+
+    // Always keep a local backup just in case
+    const usersStr = localStorage.getItem('piggybank_users');
+    const users = usersStr ? JSON.parse(usersStr) : {};
+    users[username] = dataToSave;
+    localStorage.setItem('piggybank_users', JSON.stringify(users));
+
+  }, [walletBalances, transactions, debts, farms, subscriptions, coins, streak, budget, username, authState]);
 
   // Auto-log subscriptions
   useEffect(() => {
@@ -607,8 +726,8 @@ export default function App() {
   if (authState === 'login') {
     return (
       <LoginPage 
-        onLogin={(name) => { setUsername(name); setAuthState('user'); }} 
-        onGuest={() => { setUsername('Guest'); setAuthState('guest'); }} 
+        onLogin={(name, isSignup) => handleUserLogin(name, false, isSignup)} 
+        onGuest={() => handleUserLogin('Guest', true, false)} 
       />
     );
   }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import pigAvatar from '../../imports/Neutral-1.png';
 
 interface LoginPageProps {
-  onLogin: (username: string) => void;
+  onLogin: (username: string, isSignup: boolean) => Promise<string | null>;
   onGuest: () => void;
 }
 
@@ -11,10 +11,19 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (username.trim()) {
-      onLogin(username);
+      setLoading(true);
+      setErrorMsg(null);
+      const err = await onLogin(username, view === 'signup');
+      setLoading(false);
+      if (err) {
+        setErrorMsg(err);
+      }
     }
   };
 
@@ -69,6 +78,9 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
               <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4 text-center">
                 {view === 'login' ? 'WELCOME BACK' : 'NEW PROFILE'}
               </h2>
+              {errorMsg && (
+                <p className="font-['Press_Start_2P'] text-[8px] text-red-500 mb-4 text-center">{errorMsg}</p>
+              )}
               
               <div className="space-y-4">
                 <div>
@@ -104,9 +116,10 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
               </button>
               <button 
                 type="submit"
-                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-xl py-3 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                disabled={loading}
+                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:opacity-50 border-4 border-[#3E2723] rounded-xl py-3 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                {view === 'login' ? 'ENTER' : 'CREATE'}
+                {loading ? 'WAIT...' : (view === 'login' ? 'ENTER' : 'CREATE')}
               </button>
             </div>
           </form>
