@@ -26,6 +26,7 @@ import { supabase } from '../lib/supabase';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
 import farmScene from '../imports/farm__no_pigs_.png';
+import smallPigIcon from '../imports/small-pig-icon.png';
 
 interface Transaction {
   id: number;
@@ -746,7 +747,7 @@ export default function App() {
         {/* Top Bar */}
         <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🐷</span>
+            <img src={smallPigIcon} alt="pig" className="w-6 h-6" style={{ imageRendering: 'pixelated' }} />
             <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
           </div>
           <div className="flex items-center gap-4">
@@ -919,7 +920,7 @@ export default function App() {
               {/* Top Bar */}
               <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">🐷</span>
+                  <img src={smallPigIcon} alt="pig" className="w-6 h-6" style={{ imageRendering: 'pixelated' }} />
                   <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
                 </div>
                 <div className="flex items-center gap-4">
