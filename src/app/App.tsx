@@ -15,6 +15,7 @@ import { AddDebtModal } from './components/AddDebtModal';
 import { DebtCompletionModal } from './components/DebtCompletionModal';
 import { PigGoalModal } from './components/PigGoalModal';
 import { AddWalletModal } from './components/AddWalletModal';
+import { CalendarPage } from './components/CalendarPage';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
 import farmScene from '../imports/farm__no_pigs_.png';
@@ -72,6 +73,7 @@ export default function App() {
   const [showDebtPaymentModal, setShowDebtPaymentModal] = useState(false);
   const [showAddDebtModal, setShowAddDebtModal] = useState(false);
   const [showAddWalletModal, setShowAddWalletModal] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [completedDebt, setCompletedDebt] = useState<Debt | null>(null);
   const [coins, setCoins] = useState(67);
   const [streak, setStreak] = useState(57);
@@ -528,6 +530,9 @@ export default function App() {
           )}
 
           {activeTab === 'log' && (
+            showCalendar
+              ? <CalendarPage onClose={() => setShowCalendar(false)} transactions={transactions} />
+              : (
             <div className="p-4 space-y-4">
               <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4">Transaction Log</h2>
 
@@ -575,7 +580,10 @@ export default function App() {
                       </div>
                     </div>
                   )}
-                  <button className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all">
+                  <button
+                    onClick={() => setShowCalendar(true)}
+                    className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                  >
                     view full calendar
                   </button>
                 </div>
@@ -584,7 +592,7 @@ export default function App() {
               {/* Recent Transactions */}
               <RecentTransactions transactions={transactions} />
             </div>
-          )}
+          ))}
 
           {activeTab === 'farm' && (
             <div className="absolute inset-0 flex flex-col">
@@ -956,6 +964,8 @@ export default function App() {
           onSubmit={handleAddWallet}
         />
       )}
+
+
     </div>
   );
 }
