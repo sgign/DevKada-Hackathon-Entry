@@ -40,7 +40,7 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
         {/* Logo/Icon */}
         <div className="mb-8 flex flex-col items-center">
           <div className="w-24 h-24 border-4 border-[#3E2723] rounded-2xl flex items-center justify-center mb-4 shadow-[4px_4px_0_0_#6D4C41] overflow-hidden bg-white">
-            <img src={logo} alt="Chicha" className="w-full h-full object-contain" style={{ imageRendering: 'pixelated' }} />
+            <img src={logo} alt="Chicha" className="w-full h-full object-contain scale-[2.2]" style={{ imageRendering: 'pixelated' }} />
           </div>
           <h1 className="font-['Press_Start_2P'] text-xl text-[#3E2723] text-center leading-relaxed">
             CHICHA
