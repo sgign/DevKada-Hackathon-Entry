@@ -16,6 +16,7 @@ import { DebtCompletionModal } from './components/DebtCompletionModal';
 import { PigGoalModal } from './components/PigGoalModal';
 import { AddPigGoalModal } from './components/AddPigGoalModal';
 import { AddWalletModal } from './components/AddWalletModal';
+import { ReceiptScannerModal } from './components/ReceiptScannerModal';
 import { WalletDetailModal } from './components/WalletDetailModal';
 import { CalendarPage } from './components/CalendarPage';
 import pigAvatar from '../imports/Neutral-1.png';
@@ -76,6 +77,7 @@ export default function App() {
   const [showAddDebtModal, setShowAddDebtModal] = useState(false);
   const [showAddWalletModal, setShowAddWalletModal] = useState(false);
   const [showAddGoalModal, setShowAddGoalModal] = useState(false);
+  const [showScannerModal, setShowScannerModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [walletMetadata, setWalletMetadata] = useState<Record<string, { color: string, emoji: string }>>({});
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
@@ -581,7 +583,11 @@ export default function App() {
               <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4">Transaction Log</h2>
 
               {/* Quick Actions */}
-              <QuickActions onAddExpense={() => setShowExpenseModal(true)} onAddIncome={() => setShowIncomeModal(true)} />
+              <QuickActions 
+                onAddExpense={() => setShowExpenseModal(true)} 
+                onAddIncome={() => setShowIncomeModal(true)} 
+                onScanReceipt={() => setShowScannerModal(true)}
+              />
 
               {/* AI Chat Bar */}
               <div className="bg-white border-4 border-[#8D6E63] rounded-lg p-3 shadow-[4px_4px_0_0_#6D4C41]">
@@ -1067,6 +1073,23 @@ export default function App() {
         <AddPigGoalModal
           onClose={() => setShowAddGoalModal(false)}
           onSubmit={handleAddGoal}
+        />
+      )}
+
+      {/* Receipt Scanner Modal */}
+      {showScannerModal && (
+        <ReceiptScannerModal
+          onClose={() => setShowScannerModal(false)}
+          onScanComplete={(data) => {
+             handleAddExpense({
+               amount: data.amount,
+               category: data.category,
+               wallet: Object.keys(walletBalances)[0] || 'Cash',
+               description: data.description,
+               categoryEmoji: '🍔'
+             });
+             setShowScannerModal(false);
+          }}
         />
       )}
     </div>
