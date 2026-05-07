@@ -21,6 +21,7 @@ import { WalletDetailModal } from './components/WalletDetailModal';
 import { CalendarPage } from './components/CalendarPage';
 import { SubscriptionsSection } from './components/SubscriptionsSection';
 import { AddSubscriptionModal } from './components/AddSubscriptionModal';
+import { LoginPage } from './components/LoginPage';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
 import farmScene from '../imports/farm__no_pigs_.png';
@@ -82,6 +83,8 @@ interface Subscription {
 }
 
 export default function App() {
+  const [authState, setAuthState] = useState<'login' | 'guest' | 'user'>('login');
+  const [username, setUsername] = useState('Shane');
   const [activeTab, setActiveTab] = useState('home');
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showIncomeModal, setShowIncomeModal] = useState(false);
@@ -601,6 +604,15 @@ export default function App() {
 
   const monthlyStats = calculateMonthlyStats();
 
+  if (authState === 'login') {
+    return (
+      <LoginPage 
+        onLogin={(name) => { setUsername(name); setAuthState('user'); }} 
+        onGuest={() => { setUsername('Guest'); setAuthState('guest'); }} 
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#F5DEB3] text-[#3E2723] relative overflow-hidden">
       {/* Pixel dots pattern overlay */}
@@ -992,14 +1004,14 @@ export default function App() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-['Press_Start_2P'] text-sm text-[#3E2723]">Shane</h3>
-                      <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">lvl. 40</span>
+                      <h3 className="font-['Press_Start_2P'] text-sm text-[#3E2723] truncate max-w-[120px]">{username}</h3>
+                      <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] shrink-0">lvl. {authState === 'guest' ? '1' : '40'}</span>
                     </div>
-                    <p className="text-[9px] text-[#6D4C41] mb-2">Progress towards lvl. 41</p>
+                    <p className="text-[9px] text-[#6D4C41] mb-2">Progress towards lvl. {authState === 'guest' ? '2' : '41'}</p>
                     <div className="relative h-4 bg-[#E8D5B7] rounded border-2 border-[#3E2723] overflow-hidden">
-                      <div className="absolute inset-y-0 left-0 bg-[#81C784] transition-all" style={{ width: '80%' }} />
+                      <div className="absolute inset-y-0 left-0 bg-[#81C784] transition-all" style={{ width: authState === 'guest' ? '0%' : '80%' }} />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="font-['Press_Start_2P'] text-[7px] text-[#3E2723]">80%</span>
+                        <span className="font-['Press_Start_2P'] text-[7px] text-[#3E2723]">{authState === 'guest' ? '0%' : '80%'}</span>
                       </div>
                     </div>
                   </div>
@@ -1080,12 +1092,18 @@ export default function App() {
                   </button>
 
                   {/* Account Settings */}
-                  <button className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group">
+                  <button 
+                    onClick={() => {
+                      setAuthState('login');
+                      setActiveTab('home');
+                    }} 
+                    className="w-full text-left px-4 py-3 hover:bg-[#FFF9E6] transition-colors flex items-center justify-between group"
+                  >
                     <div className="flex items-center gap-3">
-                      <span className="text-lg">⚙️</span>
+                      <span className="text-lg">🚪</span>
                       <div className="flex-1">
-                        <p className="text-[10px] text-[#3E2723]">Account Settings</p>
-                        <p className="text-[8px] text-[#6D4C41]">Restart, delete account</p>
+                        <p className="text-[10px] text-[#3E2723]">Log Out</p>
+                        <p className="text-[8px] text-[#6D4C41]">Return to login screen</p>
                       </div>
                     </div>
                     <span className="text-[#8D6E63] group-hover:text-[#D2691E]">›</span>

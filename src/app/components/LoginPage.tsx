@@ -1,0 +1,117 @@
+import { useState } from 'react';
+import pigAvatar from '../../imports/Neutral-1.png';
+
+interface LoginPageProps {
+  onLogin: (username: string) => void;
+  onGuest: () => void;
+}
+
+export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
+  const [view, setView] = useState<'menu' | 'login' | 'signup'>('menu');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (username.trim()) {
+      onLogin(username);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F5DEB3] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Pixel dots pattern overlay */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]"
+           style={{
+             backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+             backgroundSize: '4px 4px'
+           }} />
+
+      <div className="z-10 w-full max-w-sm flex flex-col items-center">
+        {/* Logo/Icon */}
+        <div className="mb-8 flex flex-col items-center">
+          <div className="w-24 h-24 bg-[#FFB6C1] border-4 border-[#3E2723] rounded-2xl flex items-center justify-center mb-4 shadow-[4px_4px_0_0_#6D4C41]">
+            <img src={pigAvatar} alt="Piggy" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
+          </div>
+          <h1 className="font-['Press_Start_2P'] text-xl text-[#3E2723] text-center leading-relaxed">
+            PIGGY BANK<br/>PET
+          </h1>
+        </div>
+
+        {view === 'menu' && (
+          <div className="w-full space-y-4">
+            <button 
+              onClick={() => setView('login')}
+              className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-xl py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            >
+              LOG IN
+            </button>
+            <button 
+              onClick={() => setView('signup')}
+              className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-xl py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            >
+              CREATE PROFILE
+            </button>
+            <div className="pt-4">
+              <button 
+                onClick={onGuest}
+                className="w-full bg-white hover:bg-gray-50 border-4 border-[#3E2723] rounded-xl py-4 font-['Press_Start_2P'] text-xs text-[#6D4C41] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                GUEST MODE
+              </button>
+            </div>
+          </div>
+        )}
+
+        {(view === 'login' || view === 'signup') && (
+          <form onSubmit={handleLoginSubmit} className="w-full space-y-4">
+            <div className="bg-white border-4 border-[#3E2723] rounded-xl p-4 shadow-[4px_4px_0_0_#6D4C41]">
+              <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4 text-center">
+                {view === 'login' ? 'WELCOME BACK' : 'NEW PROFILE'}
+              </h2>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block font-['Press_Start_2P'] text-[8px] text-[#6D4C41] mb-2">USERNAME</label>
+                  <input 
+                    type="text" 
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    className="w-full bg-[#FFF9E6] border-2 border-[#3E2723] rounded p-2 text-sm text-[#3E2723] outline-none focus:border-[#D2691E]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-['Press_Start_2P'] text-[8px] text-[#6D4C41] mb-2">PASSWORD</label>
+                  <input 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="w-full bg-[#FFF9E6] border-2 border-[#3E2723] rounded p-2 text-sm text-[#3E2723] outline-none focus:border-[#D2691E]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button 
+                type="button"
+                onClick={() => setView('menu')}
+                className="flex-1 bg-white hover:bg-gray-50 border-4 border-[#3E2723] rounded-xl py-3 font-['Press_Start_2P'] text-[10px] text-[#6D4C41] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                BACK
+              </button>
+              <button 
+                type="submit"
+                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-xl py-3 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                {view === 'login' ? 'ENTER' : 'CREATE'}
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
