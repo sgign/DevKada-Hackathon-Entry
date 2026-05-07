@@ -23,6 +23,7 @@ import { SubscriptionsSection } from './components/SubscriptionsSection';
 import { AddSubscriptionModal } from './components/AddSubscriptionModal';
 import { LoginPage } from './components/LoginPage';
 import { MiniLeaderboard } from './components/MiniLeaderboard';
+import { AIChatBar } from './components/AIChatBar';
 import { supabase } from '../lib/supabase';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
@@ -130,6 +131,11 @@ export default function App() {
   const [showAddGoalModal, setShowAddGoalModal] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showBudgetModal, setShowBudgetModal] = useState(false);
+  const [budgetInput, setBudgetInput] = useState('');
+  const [friends, setFriends] = useState<string[]>(['Ana', 'Ben', 'Clara']);
+  const [friendSearch, setFriendSearch] = useState('');
+  const [friendSearchResult, setFriendSearchResult] = useState<'idle' | 'found' | 'not_found' | 'already_added'>('idle');
   const [walletMetadata, setWalletMetadata] = useState<Record<string, { color: string, emoji: string }>>({});
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const [completedDebt, setCompletedDebt] = useState<Debt | null>(null);
@@ -820,15 +826,6 @@ export default function App() {
                 overBudgetDays={overBudgetDays}
               />
 
-              {/* Simulation Control (For Hackathon Demo) */}
-              <div className="flex justify-center gap-2">
-                <button 
-                  onClick={() => setOverBudgetDays((prev) => (prev + 1) % 4)}
-                  className="bg-[#3E2723]/10 hover:bg-[#3E2723]/20 px-3 py-1 rounded-full text-[8px] font-['Press_Start_2P'] transition-colors"
-                >
-                  🔄 Cycle Pig State ({overBudgetDays} days over)
-                </button>
-              </div>
 
 
               {/* Wallet Cards Grid */}
@@ -859,6 +856,14 @@ export default function App() {
               >
                 + add account
               </button>
+
+              {/* Daily Budget Button */}
+              <button
+                onClick={() => { setBudgetInput(String(budget.daily.total)); setShowBudgetModal(true); }}
+                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-2"
+              >
+                <span>📊</span> daily budget: ₱{budget.daily.total.toLocaleString()}
+              </button>
             </div>
           )}
 
@@ -877,13 +882,27 @@ export default function App() {
               />
 
               {/* AI Chat Bar */}
-              <div className="bg-white border-4 border-[#8D6E63] rounded-lg p-3 shadow-[4px_4px_0_0_#6D4C41]">
-                <input
-                  type="text"
-                  placeholder="Tell me what you spent..."
-                  className="w-full bg-transparent text-sm text-[#3E2723] placeholder-[#8D6E63] outline-none"
-                />
-              </div>
+              <AIChatBar
+                onParsed={(data) => {
+                  if (data.type === 'expense') {
+                    handleAddExpense({
+                      amount: data.amount,
+                      category: data.category,
+                      wallet: data.wallet,
+                      description: data.description,
+                      categoryEmoji: data.categoryEmoji
+                    });
+                  } else {
+                    handleAddIncome({
+                      amount: data.amount,
+                      category: data.category,
+                      wallet: data.wallet,
+                      description: data.description,
+                      categoryEmoji: data.categoryEmoji
+                    });
+                  }
+                }}
+              />
 
               {/* Monthly Summary */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
@@ -1166,6 +1185,106 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Friends Section */}
+              <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
+                <div className="bg-[#FFB6C1] px-4 py-2 border-b-4 border-[#8D6E63] flex items-center justify-between">
+                  <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">FRIENDS</h3>
+                  <span className="font-['Press_Start_2P'] text-[8px] text-[#6D4C41]">{friends.length}</span>
+                </div>
+                <div className="p-4 space-y-3">
+
+                  {/* Search Bar */}
+                  <div className="flex gap-2">
+                    <div className="flex-1 bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg px-3 py-2 flex items-center gap-2">
+                      <span className="text-sm">🔍</span>
+                      <input
+                        type="text"
+                        value={friendSearch}
+                        onChange={(e) => { setFriendSearch(e.target.value); setFriendSearchResult('idle'); }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && friendSearch.trim()) {
+                            const name = friendSearch.trim();
+                            if (friends.map(f => f.toLowerCase()).includes(name.toLowerCase())) {
+                              setFriendSearchResult('already_added');
+                            } else if (name.toLowerCase() === username.toLowerCase()) {
+                              setFriendSearchResult('not_found');
+                            } else {
+                              setFriendSearchResult('found');
+                            }
+                          }
+                        }}
+                        placeholder="Search username..."
+                        className="flex-1 bg-transparent text-[10px] text-[#3E2723] placeholder-[#8D6E63] outline-none"
+                      />
+                    </div>
+                    <button
+                      onClick={() => {
+                        const name = friendSearch.trim();
+                        if (!name) return;
+                        if (friends.map(f => f.toLowerCase()).includes(name.toLowerCase())) {
+                          setFriendSearchResult('already_added');
+                        } else if (name.toLowerCase() === username.toLowerCase()) {
+                          setFriendSearchResult('not_found');
+                        } else {
+                          setFriendSearchResult('found');
+                        }
+                      }}
+                      className="bg-[#3E2723] hover:bg-[#6D4C41] border-3 border-[#3E2723] rounded-lg px-3 py-2 font-['Press_Start_2P'] text-[8px] text-[#A8D5BA] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                    >
+                      GO
+                    </button>
+                  </div>
+
+                  {/* Search Result */}
+                  {friendSearchResult === 'found' && (
+                    <div className="bg-[#A8D5BA]/30 border-2 border-[#A8D5BA] rounded-lg px-3 py-2 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-[#FFB6C1] border-2 border-[#3E2723] rounded-lg flex items-center justify-center text-sm">🐷</div>
+                        <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">{friendSearch.trim()}</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setFriends(prev => [...prev, friendSearch.trim()]);
+                          setFriendSearch('');
+                          setFriendSearchResult('idle');
+                        }}
+                        className="bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-2 border-[#3E2723] rounded-lg px-2 py-1 font-['Press_Start_2P'] text-[7px] text-[#3E2723] shadow-[2px_2px_0_0_#6D4C41] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                      >
+                        + add
+                      </button>
+                    </div>
+                  )}
+                  {friendSearchResult === 'already_added' && (
+                    <p className="text-[8px] text-[#D2691E] text-center font-['Press_Start_2P']">already a friend!</p>
+                  )}
+                  {friendSearchResult === 'not_found' && (
+                    <p className="text-[8px] text-[#D32F2F] text-center font-['Press_Start_2P']">user not found</p>
+                  )}
+
+                  {/* Friends List */}
+                  {friends.length === 0 ? (
+                    <p className="text-[9px] text-[#8D6E63] text-center py-2">No friends yet. Search to add one! 🐷</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {friends.map((friend, i) => (
+                        <div key={i} className="flex items-center justify-between bg-[#FFF9E6] border-2 border-[#E8D5B7] rounded-lg px-3 py-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-[#FFB6C1] border-2 border-[#3E2723] rounded-lg flex items-center justify-center text-sm">🐷</div>
+                            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">{friend}</span>
+                          </div>
+                          <button
+                            onClick={() => setFriends(prev => prev.filter((_, idx) => idx !== i))}
+                            className="text-[#8D6E63] hover:text-[#D32F2F] text-xs transition-colors px-1"
+                            title="Remove friend"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
 
               {/* Settings Section */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
@@ -1360,6 +1479,61 @@ export default function App() {
           onSubmit={handleAddSubscription}
         />
       )}
+
+      {/* Daily Budget Modal */}
+      {showBudgetModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setShowBudgetModal(false)} />
+          <div className="relative bg-[#FFF9E6] border-4 border-[#3E2723] rounded-xl shadow-[8px_8px_0_0_#6D4C41] w-full max-w-sm p-6 space-y-4">
+            <h2 className="font-['Press_Start_2P'] text-sm text-[#3E2723] text-center">SET DAILY BUDGET</h2>
+            <p className="text-[9px] text-[#6D4C41] text-center">Your pig's mood depends on staying within budget 🐷</p>
+
+            <div className="bg-white border-3 border-[#8D6E63] rounded-lg px-4 py-3 flex items-center gap-2">
+              <span className="font-['Press_Start_2P'] text-sm text-[#3E2723]">₱</span>
+              <input
+                type="number"
+                min="1"
+                value={budgetInput}
+                onChange={(e) => setBudgetInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const val = parseInt(budgetInput);
+                    if (val > 0) {
+                      setBudget(prev => ({ ...prev, daily: { total: val } }));
+                      setShowBudgetModal(false);
+                    }
+                  }
+                }}
+                autoFocus
+                className="flex-1 bg-transparent font-['Press_Start_2P'] text-lg text-[#3E2723] outline-none w-full"
+                placeholder="600"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowBudgetModal(false)}
+                className="flex-1 bg-[#E8D5B7] hover:bg-[#D4B896] border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                cancel
+              </button>
+              <button
+                onClick={() => {
+                  const val = parseInt(budgetInput);
+                  if (val > 0) {
+                    setBudget(prev => ({ ...prev, daily: { total: val } }));
+                    setShowBudgetModal(false);
+                  }
+                }}
+                className="flex-1 bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#3E2723] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                save ✓
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+
   );
 }
