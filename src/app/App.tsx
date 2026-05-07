@@ -14,7 +14,9 @@ import { DebtPaymentModal } from './components/DebtPaymentModal';
 import { AddDebtModal } from './components/AddDebtModal';
 import { DebtCompletionModal } from './components/DebtCompletionModal';
 import { PigGoalModal } from './components/PigGoalModal';
+import { AddPigGoalModal } from './components/AddPigGoalModal';
 import { AddWalletModal } from './components/AddWalletModal';
+import { WalletDetailModal } from './components/WalletDetailModal';
 import { CalendarPage } from './components/CalendarPage';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
@@ -73,7 +75,10 @@ export default function App() {
   const [showDebtPaymentModal, setShowDebtPaymentModal] = useState(false);
   const [showAddDebtModal, setShowAddDebtModal] = useState(false);
   const [showAddWalletModal, setShowAddWalletModal] = useState(false);
+  const [showAddGoalModal, setShowAddGoalModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [walletMetadata, setWalletMetadata] = useState<Record<string, { color: string, emoji: string }>>({});
+  const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const [completedDebt, setCompletedDebt] = useState<Debt | null>(null);
   const [coins, setCoins] = useState(67);
   const [streak, setStreak] = useState(57);
@@ -353,16 +358,51 @@ export default function App() {
   };
 
   // Handle adding new wallet
-  const handleAddWallet = (walletData: { name: string; amount: number }) => {
+  const handleAddWallet = (walletData: { name: string; amount: number; color: string; emoji: string }) => {
     setWalletBalances(prev => ({
       ...prev,
       [walletData.name]: walletData.amount
     }));
+    setWalletMetadata(prev => ({
+      ...prev,
+      [walletData.name]: { color: walletData.color, emoji: walletData.emoji }
+    }));
     setShowAddWalletModal(false);
+  };
+
+  // Handle adding new pig goal
+  const handleAddGoal = (goalData: { name: string; targetAmount: number; emoji: string; deadline: string }) => {
+    setFarms(prev => prev.map(farm => {
+      if (farm.id === selectedFarmId) {
+        return {
+          ...farm,
+          numPigs: farm.numPigs + 1,
+          pigGoals: [...farm.pigGoals, {
+            name: goalData.name,
+            targetAmount: goalData.targetAmount,
+            savedAmount: 0,
+            emoji: goalData.emoji,
+            deadline: goalData.deadline,
+            color: 'bg-[#FFD966]'
+          }]
+        };
+      }
+      return farm;
+    }));
+    setShowAddGoalModal(false);
   };
 
   // Helper for dynamic wallet styles
   const getWalletStyle = (name: string, index: number) => {
+    if (walletMetadata[name]) {
+      return { 
+        bg: walletMetadata[name].color, 
+        icon: walletMetadata[name].emoji, 
+        bgIcon: walletMetadata[name].emoji, 
+        bgIconClass: 'text-2xl opacity-50' 
+      };
+    }
+
     switch (name) {
       case 'Cash': return { bg: 'bg-[#FFD966]', icon: '💰', bgIcon: '💰', bgIconClass: 'text-3xl opacity-50' };
       case 'GCash': return { bg: 'bg-[#64B5F6]', icon: '💳', bgIcon: <div className="w-8 h-8 bg-[#2196F3] rounded-full border-2 border-[#3E2723] flex items-center justify-center"><span className="text-white font-bold text-xs">G</span></div>, bgIconClass: '' };
@@ -507,7 +547,11 @@ export default function App() {
                 {Object.entries(walletBalances).map(([name, balance], index) => {
                   const style = getWalletStyle(name, index);
                   return (
-                    <div key={name} className={`${style.bg} border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden`}>
+                    <div 
+                      key={name} 
+                      onClick={() => setSelectedWallet(name)}
+                      className={`${style.bg} border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform`}
+                    >
                       <div className="flex justify-between items-start mb-2">
                         <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">{name}</span>
                         <span className="text-xs">{style.icon}</span>
@@ -612,7 +656,7 @@ export default function App() {
               </div>
 
               {/* Farm Content with Background */}
-              <div className="flex-1 relative"
+              <div className="flex-1 relative overflow-y-auto overflow-x-hidden"
                    style={{
                      backgroundImage: `url(${farmBackground})`,
                      backgroundSize: 'cover',
@@ -709,15 +753,53 @@ export default function App() {
                 </div>
               </div>
 
-                {/* Add Pig Button */}
-                <div className="px-4 pb-4">
-                  <button
-                    onClick={handleAddPig}
-                    className="w-full bg-[#FFB6C1] hover:bg-[#FFB6C1]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all">
-                    + ADOPT NEW PIG
-                  </button>
+              {/* Goals and Savings List */}
+              <div className="px-4 pb-24 mt-4 relative z-10">
+                <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
+                  <div className="bg-[#A8D5BA] px-4 py-2 border-b-4 border-[#8D6E63]">
+                    <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">GOALS & SAVINGS</h3>
+                  </div>
+                  <div className="p-4 space-y-3">
+                    {selectedFarm.pigGoals.map((goal, i) => {
+                      if (!goal) return null;
+                      const percentage = Math.min((goal.savedAmount / goal.targetAmount) * 100, 100);
+                      return (
+                        <div 
+                          key={i} 
+                          onClick={() => setSelectedPigIndex(i)}
+                          className="bg-[#FFF9E6] hover:bg-[#FFD966]/20 border-3 border-[#8D6E63] rounded-lg p-3 cursor-pointer transition-colors"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">{goal.emoji}</span>
+                              <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] truncate">{goal.name}</span>
+                            </div>
+                            <span className="text-[8px] text-[#6D4C41] shrink-0">
+                              ₱{goal.savedAmount.toLocaleString()} / ₱{goal.targetAmount.toLocaleString()}
+                            </span>
+                          </div>
+                          <div className="h-3 bg-[#E8D5B7] rounded border-2 border-[#8D6E63] overflow-hidden">
+                            <div 
+                              className={`h-full ${goal.color || 'bg-[#81C784]'} transition-all`} 
+                              style={{ width: `${percentage}%` }} 
+                            />
+                          </div>
+                          <p className="text-[7px] text-[#6D4C41] mt-1 text-right">
+                            {Math.round(percentage)}% complete
+                          </p>
+                        </div>
+                      );
+                    })}
+                    <button 
+                      onClick={() => setShowAddGoalModal(true)}
+                      className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                    >
+                      + add goal
+                    </button>
+                  </div>
                 </div>
               </div>
+            </div>
             </div>
           )}
 
@@ -787,37 +869,41 @@ export default function App() {
                   <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">GOALS & SAVINGS</h3>
                 </div>
                 <div className="p-4 space-y-3">
-                  {/* Goal 1 */}
-                  <div className="bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">📱</span>
-                        <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">New Phone</span>
+                  {selectedFarm.pigGoals.map((goal, i) => {
+                    if (!goal) return null;
+                    const percentage = Math.min((goal.savedAmount / goal.targetAmount) * 100, 100);
+                    return (
+                      <div 
+                        key={i} 
+                        onClick={() => setSelectedPigIndex(i)}
+                        className="bg-[#FFF9E6] hover:bg-[#FFD966]/20 border-3 border-[#8D6E63] rounded-lg p-3 cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{goal.emoji}</span>
+                            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] truncate">{goal.name}</span>
+                          </div>
+                          <span className="text-[8px] text-[#6D4C41] shrink-0">
+                            ₱{goal.savedAmount.toLocaleString()} / ₱{goal.targetAmount.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="h-3 bg-[#E8D5B7] rounded border-2 border-[#8D6E63] overflow-hidden">
+                          <div 
+                            className={`h-full ${goal.color || 'bg-[#81C784]'} transition-all`} 
+                            style={{ width: `${percentage}%` }} 
+                          />
+                        </div>
+                        <p className="text-[7px] text-[#6D4C41] mt-1 text-right">
+                          {Math.round(percentage)}% complete
+                        </p>
                       </div>
-                      <span className="text-[8px] text-[#6D4C41]">₱15,000 / ₱25,000</span>
-                    </div>
-                    <div className="h-3 bg-[#E8D5B7] rounded border-2 border-[#8D6E63] overflow-hidden">
-                      <div className="h-full bg-[#81C784] transition-all" style={{ width: '60%' }} />
-                    </div>
-                    <p className="text-[7px] text-[#6D4C41] mt-1 text-right">60% complete</p>
-                  </div>
+                    );
+                  })}
 
-                  {/* Goal 2 */}
-                  <div className="bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">✈️</span>
-                        <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">Vacation</span>
-                      </div>
-                      <span className="text-[8px] text-[#6D4C41]">₱5,000 / ₱20,000</span>
-                    </div>
-                    <div className="h-3 bg-[#E8D5B7] rounded border-2 border-[#8D6E63] overflow-hidden">
-                      <div className="h-full bg-[#FFB74D] transition-all" style={{ width: '25%' }} />
-                    </div>
-                    <p className="text-[7px] text-[#6D4C41] mt-1 text-right">25% complete</p>
-                  </div>
-
-                  <button className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all">
+                  <button 
+                    onClick={() => setShowAddGoalModal(true)}
+                    className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                  >
                     + add goal
                   </button>
                 </div>
@@ -875,7 +961,7 @@ export default function App() {
         </div>
 
         {/* Bottom Navigation */}
-        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#FFD966] border-t-4 border-[#8D6E63] shadow-[0_-4px_0_0_#6D4C41]">
+        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#FFD966] border-t-4 border-[#8D6E63] shadow-[0_-4px_0_0_#6D4C41] z-50">
           <div className="flex justify-around items-center py-3 px-2">
             {[
               { id: 'home', icon: Home, label: 'Home' },
@@ -965,7 +1051,24 @@ export default function App() {
         />
       )}
 
+      {/* Wallet Detail Modal */}
+      {selectedWallet && (
+        <WalletDetailModal
+          walletName={selectedWallet}
+          balance={walletBalances[selectedWallet]}
+          transactions={transactions}
+          style={getWalletStyle(selectedWallet, Object.keys(walletBalances).indexOf(selectedWallet))}
+          onClose={() => setSelectedWallet(null)}
+        />
+      )}
 
+      {/* Add Pig Goal Modal */}
+      {showAddGoalModal && (
+        <AddPigGoalModal
+          onClose={() => setShowAddGoalModal(false)}
+          onSubmit={handleAddGoal}
+        />
+      )}
     </div>
   );
 }

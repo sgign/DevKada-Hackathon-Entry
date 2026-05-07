@@ -6,18 +6,43 @@ interface AddWalletModalProps {
   onSubmit: (walletData: {
     name: string;
     amount: number;
+    color: string;
+    emoji: string;
   }) => void;
 }
+
+const WALLET_ICONS = [
+  { id: 'card', emoji: '💳', label: 'Card' },
+  { id: 'bank', emoji: '🏦', label: 'Bank' },
+  { id: 'cash', emoji: '💰', label: 'Cash' },
+  { id: 'wallet', emoji: '👛', label: 'Wallet' },
+  { id: 'piggy', emoji: '🐷', label: 'Piggy Bank' },
+];
+
+const WALLET_COLORS = [
+  'bg-[#FFD966]', // Yellow
+  'bg-[#64B5F6]', // Blue
+  'bg-[#A8D5BA]', // Green
+  'bg-[#EF9A9A]', // Red
+  'bg-[#CE93D8]', // Purple
+  'bg-[#FFCC80]', // Orange
+  'bg-[#BCAAA4]', // Brown
+  'bg-[#B2DFDB]', // Teal
+];
 
 export function AddWalletModal({ onClose, onSubmit }: AddWalletModalProps) {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
+  const [emoji, setEmoji] = useState('💳');
+  const [color, setColor] = useState('bg-[#FFD966]');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
       name,
-      amount: parseFloat(amount) || 0
+      amount: parseFloat(amount) || 0,
+      color,
+      emoji
     });
   };
 
@@ -25,7 +50,7 @@ export function AddWalletModal({ onClose, onSubmit }: AddWalletModalProps) {
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm">
       <div className="w-full max-w-md bg-[#F5DEB3] border-t-4 border-[#8D6E63] rounded-t-3xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-[#A8D5BA] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between shadow-[0_4px_0_0_#6D4C41]">
+        <div className="sticky top-0 bg-[#A8D5BA] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between shadow-[0_4px_0_0_#6D4C41] z-10">
           <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
             ADD NEW WALLET
           </h2>
@@ -75,11 +100,57 @@ export function AddWalletModal({ onClose, onSubmit }: AddWalletModalProps) {
             </div>
           </div>
 
+          {/* Icon Selection */}
+          <div>
+            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+              ICON
+            </label>
+            <div className="grid grid-cols-5 gap-2">
+              {WALLET_ICONS.map((icon) => (
+                <button
+                  key={icon.id}
+                  type="button"
+                  onClick={() => setEmoji(icon.emoji)}
+                  className={`p-3 rounded-lg border-3 transition-all shadow-[3px_3px_0_0_#6D4C41] ${
+                    emoji === icon.emoji
+                      ? 'bg-[#A8D5BA] border-[#2E7D32] scale-105'
+                      : 'bg-white border-[#8D6E63] hover:border-[#D2691E]'
+                  }`}
+                  title={icon.label}
+                >
+                  <div className="text-2xl">{icon.emoji}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Color Selection */}
+          <div>
+            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+              COLOR
+            </label>
+            <div className="grid grid-cols-4 gap-2">
+              {WALLET_COLORS.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setColor(c)}
+                  className={`h-12 rounded-lg border-3 transition-all shadow-[3px_3px_0_0_#6D4C41] ${c} ${
+                    color === c
+                      ? 'border-[#3E2723] scale-105'
+                      : 'border-[#8D6E63] hover:border-[#D2691E]'
+                  }`}
+                  title={c}
+                />
+              ))}
+            </div>
+          </div>
+
           {/* Submit Button */}
           <button
             type="submit"
             disabled={!name || !amount}
-            className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]"
+            className={`w-full ${color} hover:opacity-80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]`}
           >
             ADD WALLET
           </button>
