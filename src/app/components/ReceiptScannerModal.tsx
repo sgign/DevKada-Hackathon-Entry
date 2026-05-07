@@ -11,6 +11,7 @@ interface LineItem {
   id: number;
   name: string;
   price: number;
+  category?: string;
 }
 
 interface ScannedResult {
@@ -115,22 +116,13 @@ async function geminiParseReceiptText(ocrText: string): Promise<ScannedResult> {
   const systemPrompt = `You are an expert financial data extraction parser. I will provide you with raw, messy OCR text from a receipt.
 
 Your Rules:
-1. Extract ONLY the purchased line items and their specific prices.
-2. IGNORE the subtotal, total, tax, VAT, and change amounts.
-3. IGNORE dates, times, phone numbers, store numbers, barcodes, zip codes, and tax IDs.
-4. IGNORE cash tendered, change given, and any payment method lines.
-5. If an item has a quantity (e.g., "2x Coffee"), multiply the price if needed, or just extract the final price for that line.
-6. Also extract the store/restaurant name (first meaningful text line).
-7. Also extract the grand total (the final amount the customer paid, NOT the change).
-
-Return ONLY a raw JSON object — no markdown, no explanation — in this exact shape:
-{
-  "storeName": "string",
-  "total": number,
-  "items": [
-    { "name": "string", "price": number }
-  ]
-}`;
+1. Extract ONLY the product names and their unit prices.
+2. Filter out ALL noise: IGNORE shop names, VAT, tax, subtotal, total, change amounts, dates, times, phone numbers, and payment methods.
+3. Categorize each item into exactly one of these categories: Food, Transportation, Utilities, Personal, Others.
+4. Return ONLY a raw JSON array of objects — no markdown, no explanation — in this exact shape:
+[
+  { "name": "string", "price": number, "category": "string" }
+]`;
 
   const body = {
     contents: [
@@ -145,7 +137,7 @@ Return ONLY a raw JSON object — no markdown, no explanation — in this exact 
   };
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent?key=${GEMINI_API_KEY}`,
     { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
   );
 
@@ -158,35 +150,48 @@ Return ONLY a raw JSON object — no markdown, no explanation — in this exact 
   const jsonStr = rawContent.replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
   const parsed = JSON.parse(jsonStr);
 
+  const parsedArray = Array.isArray(parsed) ? parsed : [];
+
   // Map to our internal types
-  const items: LineItem[] = (parsed.items ?? []).map((item: { name: string; price: number }, i: number) => ({
+  const items: LineItem[] = parsedArray.map((item: any, i: number) => ({
     id: i,
     name: String(item.name),
     price: Number(item.price) || 0,
+    category: String(item.category || 'Others'),
   }));
 
-  // Detect category from store name + full text
-  const categoryMap: Record<string, string> = {
-    jollibee: '🍔', mcdo: '🍔', mcdonald: '🍔', kfc: '🍔', pizza: '🍕', burger: '🍔',
-    chowking: '🍔', restaurant: '🍔', food: '🍔', cafe: '☕', coffee: '☕', starbucks: '☕',
-    grocery: '🛒', supermarket: '🛒', market: '🛒', puregold: '🛒', robinsons: '🛒', sm: '🛒',
-    pharmacy: '💊', drugstore: '💊', mercury: '💊', watsons: '💊',
-    hospital: '🏥', clinic: '🏥', transport: '🚗', grab: '🚗', gas: '⛽', petron: '⛽',
-    shell: '⛽', electricity: '💡', meralco: '💡', water: '💧', maynilad: '💧',
-    internet: '📶', globe: '📶', smart: '📶', pldt: '📶',
-    shop: '🛍️', mall: '🛍️', hotel: '🏨',
-  };
-  let category = 'Receipt', categoryEmoji = '🧾';
-  const combined = (parsed.storeName + ' ' + ocrText).toLowerCase();
-  for (const [kw, emoji] of Object.entries(categoryMap)) {
-    if (combined.includes(kw)) { category = kw.charAt(0).toUpperCase() + kw.slice(1); categoryEmoji = emoji; break; }
+  // Determine main category based on most frequent item category
+  const categoryCounts = items.reduce((acc, item) => {
+    const cat = item.category || 'Others';
+    acc[cat] = (acc[cat] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  let mainCategory = 'Others';
+  let maxCount = 0;
+  for (const [cat, count] of Object.entries(categoryCounts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      mainCategory = cat;
+    }
   }
 
+  const categoryEmojiMap: Record<string, string> = {
+    'Food': '🍔',
+    'Transportation': '🚗',
+    'Utilities': '💡',
+    'Personal': '🛍️',
+    'Others': '🧾'
+  };
+
+  const categoryEmoji = categoryEmojiMap[mainCategory] || '🧾';
+  const total = items.reduce((sum, item) => sum + item.price, 0);
+
   return {
-    storeName: String(parsed.storeName || 'Receipt'),
-    total: Number(parsed.total) || 0,
+    storeName: 'Scanned Receipt',
+    total: total,
     items,
-    category,
+    category: mainCategory,
     categoryEmoji,
     rawText: ocrText,
   };
@@ -396,6 +401,9 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
               <div className="divide-y divide-white/10 max-h-64 overflow-y-auto">
                 {items.map(item => (
                   <div key={item.id} className="flex items-center gap-2 px-3 py-2">
+                    <span title={item.category || 'Others'} className="text-xs cursor-help">
+                      {item.category === 'Food' ? '🍔' : item.category === 'Transportation' ? '🚗' : item.category === 'Utilities' ? '💡' : item.category === 'Personal' ? '🛍️' : '🧾'}
+                    </span>
                     <input
                       type="text"
                       value={item.name}
