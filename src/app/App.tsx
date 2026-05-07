@@ -14,6 +14,7 @@ import { DebtPaymentModal } from './components/DebtPaymentModal';
 import { AddDebtModal } from './components/AddDebtModal';
 import { DebtCompletionModal } from './components/DebtCompletionModal';
 import { PigGoalModal } from './components/PigGoalModal';
+import { AddWalletModal } from './components/AddWalletModal';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
 import farmScene from '../imports/farm__no_pigs_.png';
@@ -70,6 +71,7 @@ export default function App() {
   const [selectedDebt, setSelectedDebt] = useState<Debt | null>(null);
   const [showDebtPaymentModal, setShowDebtPaymentModal] = useState(false);
   const [showAddDebtModal, setShowAddDebtModal] = useState(false);
+  const [showAddWalletModal, setShowAddWalletModal] = useState(false);
   const [completedDebt, setCompletedDebt] = useState<Debt | null>(null);
   const [coins, setCoins] = useState(67);
   const [streak, setStreak] = useState(57);
@@ -125,7 +127,7 @@ export default function App() {
   const selectedFarm = farms.find(f => f.id === selectedFarmId) || farms[0];
 
   // Wallet balances
-  const [walletBalances, setWalletBalances] = useState({
+  const [walletBalances, setWalletBalances] = useState<Record<string, number>>({
     'Cash': 5000,
     'GCash': 5000,
     'Landbank': 5000,
@@ -348,6 +350,30 @@ export default function App() {
     setShowAddDebtModal(false);
   };
 
+  // Handle adding new wallet
+  const handleAddWallet = (walletData: { name: string; amount: number }) => {
+    setWalletBalances(prev => ({
+      ...prev,
+      [walletData.name]: walletData.amount
+    }));
+    setShowAddWalletModal(false);
+  };
+
+  // Helper for dynamic wallet styles
+  const getWalletStyle = (name: string, index: number) => {
+    switch (name) {
+      case 'Cash': return { bg: 'bg-[#FFD966]', icon: '💰', bgIcon: '💰', bgIconClass: 'text-3xl opacity-50' };
+      case 'GCash': return { bg: 'bg-[#64B5F6]', icon: '💳', bgIcon: <div className="w-8 h-8 bg-[#2196F3] rounded-full border-2 border-[#3E2723] flex items-center justify-center"><span className="text-white font-bold text-xs">G</span></div>, bgIconClass: '' };
+      case 'Landbank': return { bg: 'bg-[#A8D5BA]', icon: '🏦', bgIcon: '💳', bgIconClass: 'text-2xl opacity-50' };
+      case 'BPI': return { bg: 'bg-[#EF9A9A]', icon: '🏦', bgIcon: '💳', bgIconClass: 'text-2xl opacity-50' };
+      case 'Maya': return { bg: 'bg-[#CE93D8]', icon: '💳', bgIcon: '💳', bgIconClass: 'text-2xl opacity-50' };
+      case 'BDO': return { bg: 'bg-[#81D4FA]', icon: '🏦', bgIcon: '🏦', bgIconClass: 'text-2xl opacity-50' };
+      default: 
+        const colors = ['bg-[#FFCC80]', '#BCAAA4', 'bg-[#B2DFDB]', 'bg-[#FFAB91]', 'bg-[#9FA8DA]'];
+        return { bg: colors[index % colors.length], icon: '💳', bgIcon: '💳', bgIconClass: 'text-2xl opacity-50' };
+    }
+  };
+
   // Handle removing completed debt
   const handleRemoveDebt = () => {
     if (!completedDebt) return;
@@ -443,32 +469,61 @@ export default function App() {
         <div className="flex-1 overflow-y-auto pb-20">
           {activeTab === 'home' && (
             <div className="p-4 space-y-4">
-              {/* Greeting */}
-              <div className="text-center">
-                <h1 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-1">
-                  Good {getCurrentTime()}!
-                </h1>
-                <p className="text-xs text-[#6D4C41]">
-                  {new Date().toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </p>
+              {/* Greeting & Streak */}
+              <div className="relative flex justify-center items-center">
+                <div className="text-center">
+                  <h1 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-1">
+                    Good {getCurrentTime()}!
+                  </h1>
+                  <p className="text-xs text-[#6D4C41]">
+                    {new Date().toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+                <div 
+                  className="absolute right-0 flex items-center gap-1 bg-gradient-to-r from-[#FFD966] to-[#FFA726] px-2 py-1 rounded border-2 border-[#3E2723] shadow-[2px_2px_0_0_#3E2723] cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => alert('Streak history coming soon!')}
+                >
+                  <span className="text-xs">🔥</span>
+                  <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">{streak}</span>
+                </div>
               </div>
 
               {/* Pig Display */}
-              <PigDisplay state={pigState} />
+              <PigDisplay 
+                state={pigState} 
+                dailyBudget={{ spent: monthlyStats.totalSpent, total: budget.daily.total }} 
+              />
 
-              {/* Budget Bars */}
-              <BudgetBars budget={{
-                daily: { spent: monthlyStats.totalSpent, total: budget.daily.total },
-                monthly: { spent: monthlyStats.totalSpent, total: budget.monthly.total }
-              }} />
 
-              {/* Streak Card */}
-              <StreakCard streak={streak} />
+              {/* Wallet Cards Grid */}
+              <div className="grid grid-cols-2 gap-3">
+                {Object.entries(walletBalances).map(([name, balance], index) => {
+                  const style = getWalletStyle(name, index);
+                  return (
+                    <div key={name} className={`${style.bg} border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden`}>
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">{name}</span>
+                        <span className="text-xs">{style.icon}</span>
+                      </div>
+                      <p className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">{balance.toLocaleString()}</p>
+                      <div className={`absolute bottom-2 right-2 ${style.bgIconClass}`}>{style.bgIcon}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Add Account Button */}
+              <button 
+                onClick={() => setShowAddWalletModal(true)}
+                className="w-full bg-[#3E2723] hover:bg-[#6D4C41] border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#A8D5BA] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                + add account
+              </button>
             </div>
           )}
 
@@ -716,55 +771,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Wallet Cards Grid */}
-              <div className="grid grid-cols-2 gap-3">
-                {/* Cash */}
-                <div className="bg-[#FFD966] border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">Cash</span>
-                    <span className="text-xs">💰</span>
-                  </div>
-                  <p className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">{walletBalances['Cash'].toLocaleString()}</p>
-                  <div className="absolute bottom-2 right-2 text-3xl opacity-50">💰</div>
-                </div>
 
-                {/* GCash */}
-                <div className="bg-[#64B5F6] border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">GCash</span>
-                    <span className="text-xs">💳</span>
-                  </div>
-                  <p className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">{walletBalances['GCash'].toLocaleString()}</p>
-                  <div className="absolute bottom-2 right-2 w-8 h-8 bg-[#2196F3] rounded-full border-2 border-[#3E2723] flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">G</span>
-                  </div>
-                </div>
-
-                {/* Landbank */}
-                <div className="bg-[#A8D5BA] border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">Landbank</span>
-                    <span className="text-xs">🏦</span>
-                  </div>
-                  <p className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">{walletBalances['Landbank'].toLocaleString()}</p>
-                  <div className="absolute bottom-2 right-2 text-2xl">💳</div>
-                </div>
-
-                {/* BPI */}
-                <div className="bg-[#EF9A9A] border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">BPI</span>
-                    <span className="text-xs">🏦</span>
-                  </div>
-                  <p className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">{walletBalances['BPI'].toLocaleString()}</p>
-                  <div className="absolute bottom-2 right-2 text-2xl">💳</div>
-                </div>
-              </div>
-
-              {/* Add Account Button */}
-              <button className="w-full bg-[#3E2723] hover:bg-[#6D4C41] border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#A8D5BA] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all">
-                + add account
-              </button>
 
               {/* Goals & Savings */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
@@ -939,6 +946,14 @@ export default function App() {
           pigNumber={selectedPigIndex + 1}
           goal={selectedFarm.pigGoals[selectedPigIndex]}
           onClose={() => setSelectedPigIndex(null)}
+        />
+      )}
+
+      {/* Add Wallet Modal */}
+      {showAddWalletModal && (
+        <AddWalletModal
+          onClose={() => setShowAddWalletModal(false)}
+          onSubmit={handleAddWallet}
         />
       )}
     </div>
