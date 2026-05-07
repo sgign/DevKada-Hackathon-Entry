@@ -377,7 +377,7 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
       <div className="w-full max-w-md p-6 pb-16 flex flex-col items-center min-h-full">
         {/* Header */}
         <div className="flex justify-between items-center w-full mb-6 sticky top-0 pt-2">
-          <h2 className="font-['Press_Start_2P'] text-xs text-white">RECEIPT SCANNER</h2>
+          <h2 className="font-['VCR_OSD_Mono'] text-xs text-white">RECEIPT SCANNER</h2>
           <button onClick={handleClose} className="text-white/70 hover:text-white transition-colors">
             <X size={24} />
           </button>
@@ -391,7 +391,7 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
             <div className="relative w-full aspect-[3/4] rounded-2xl border-4 border-[#8D6E63] overflow-hidden bg-black">
               <video ref={startCamera} autoPlay playsInline muted className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent py-4">
-                <p className="font-['Press_Start_2P'] text-[9px] text-white/70 text-center">ALIGN RECEIPT IN FRAME</p>
+                <p className="font-['VCR_OSD_Mono'] text-[9px] text-white/70 text-center">ALIGN RECEIPT IN FRAME</p>
               </div>
             </div>
             <button onClick={handleCapture} className="w-20 h-20 bg-white rounded-full border-8 border-gray-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex items-center justify-center">
@@ -403,7 +403,7 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
         {/* CROP */}
         {step === 'crop' && capturedImage && (
           <div className="w-full flex flex-col items-center gap-6">
-            <p className="font-['Press_Start_2P'] text-[10px] text-[#FFD966] text-center">CROP RECEIPT</p>
+            <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#FFD966] text-center">CROP RECEIPT</p>
             <div className="w-full bg-black rounded-xl overflow-hidden border-4 border-[#8D6E63]">
               <ReactCrop crop={crop} onChange={c => setCrop(c)}>
                 <img 
@@ -417,13 +417,13 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
             <div className="flex gap-4 w-full">
               <button 
                 onClick={() => { setStep('camera'); setCapturedImage(null); }} 
-                className="flex-1 bg-gray-500 hover:bg-gray-400 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-white shadow-[4px_4px_0_0_#6D4C41]"
+                className="flex-1 bg-gray-500 hover:bg-gray-400 border-4 border-[#8D6E63] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[9px] text-white shadow-[4px_4px_0_0_#6D4C41]"
               >
                 RETAKE
               </button>
               <button 
                 onClick={processImage} 
-                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41]"
+                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41]"
               >
                 CONFIRM
               </button>
@@ -436,7 +436,7 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
           <div className="flex flex-col items-center justify-center gap-8 h-80 w-full">
             <ScanLine size={64} className="text-[#FFD966] animate-pulse" />
             <div className="w-full space-y-3">
-              <p className="font-['Press_Start_2P'] text-[10px] text-[#FFD966] text-center animate-pulse">ANALYZING RECEIPT...</p>
+              <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#FFD966] text-center animate-pulse">ANALYZING RECEIPT...</p>
               <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden border-2 border-[#8D6E63]">
                 <div className="h-full bg-[#FFD966] transition-all duration-300 rounded-full" style={{ width: `${ocrProgress}%` }} />
               </div>
@@ -448,11 +448,11 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
         {/* REVIEW */}
         {step === 'review' && scannedResult && (
           <div className="w-full space-y-4">
-            <p className="font-['Press_Start_2P'] text-[9px] text-[#A8D5BA] text-center">REVIEW SCANNED ITEMS</p>
+            <p className="font-['VCR_OSD_Mono'] text-[9px] text-[#A8D5BA] text-center">REVIEW SCANNED ITEMS</p>
 
             {/* Store name */}
             <div className="bg-white/10 border-2 border-[#8D6E63] rounded-xl p-3">
-              <label className="block font-['Press_Start_2P'] text-[8px] text-[#FFD966] mb-2">STORE / DESCRIPTION</label>
+              <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#FFD966] mb-2">STORE / DESCRIPTION</label>
               <input
                 type="text"
                 value={storeName}
@@ -464,8 +464,8 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
             {/* Items list */}
             <div className="bg-white/10 border-2 border-[#8D6E63] rounded-xl overflow-hidden">
               <div className="bg-white/10 px-3 py-2 flex justify-between items-center border-b border-white/10">
-                <span className="font-['Press_Start_2P'] text-[8px] text-[#FFD966]">ITEMS</span>
-                <span className="font-['Press_Start_2P'] text-[8px] text-[#FFD966]">PRICE</span>
+                <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#FFD966]">ITEMS</span>
+                <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#FFD966]">PRICE</span>
               </div>
 
               {items.length === 0 && (
@@ -506,13 +506,13 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
                 className="w-full flex items-center justify-center gap-2 py-2 text-white/40 hover:text-white/70 transition-colors border-t border-white/10"
               >
                 <Plus size={14} />
-                <span className="font-['Press_Start_2P'] text-[7px]">ADD ITEM</span>
+                <span className="font-['VCR_OSD_Mono'] text-[7px]">ADD ITEM</span>
               </button>
             </div>
 
             {/* Total */}
             <div className="bg-white/10 border-2 border-[#8D6E63] rounded-xl p-4 flex justify-between items-center">
-              <span className="font-['Press_Start_2P'] text-[9px] text-white">TOTAL</span>
+              <span className="font-['VCR_OSD_Mono'] text-[9px] text-white">TOTAL</span>
               <div className="text-right">
                 <span className="text-[#FFD966] text-2xl font-bold">₱{effectiveTotal.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 {scannedResult.total > 0 && Math.abs(effectiveTotal - scannedResult.total) > 0.01 && (
@@ -522,21 +522,21 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
             </div>
 
             {effectiveTotal === 0 && (
-              <p className="text-[#FFB74D] font-['Press_Start_2P'] text-[8px] text-center">
+              <p className="text-[#FFB74D] font-['VCR_OSD_Mono'] text-[8px] text-center">
                 ⚠ Add at least one item with a price.
               </p>
             )}
 
             {/* Raw OCR */}
             <details className="bg-white/5 border border-white/10 rounded-lg p-3 cursor-pointer">
-              <summary className="font-['Press_Start_2P'] text-[8px] text-white/30 select-none">RAW OCR TEXT</summary>
+              <summary className="font-['VCR_OSD_Mono'] text-[8px] text-white/30 select-none">RAW OCR TEXT</summary>
               <p className="text-white/20 text-[9px] mt-2 whitespace-pre-wrap break-words max-h-28 overflow-y-auto">{scannedResult.rawText || '(none)'}</p>
             </details>
 
             <button
               onClick={handleConfirm}
               disabled={effectiveTotal <= 0}
-              className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41]"
+              className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41]"
             >
               LOG EXPENSE
             </button>
@@ -547,7 +547,7 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
         {step === 'done' && (
           <div className="flex flex-col items-center justify-center h-80 space-y-4">
             <CheckCircle2 size={80} className="text-[#81C784] animate-bounce" />
-            <p className="font-['Press_Start_2P'] text-[12px] text-[#81C784]">LOGGED!</p>
+            <p className="font-['VCR_OSD_Mono'] text-[12px] text-[#81C784]">LOGGED!</p>
           </div>
         )}
 
@@ -555,9 +555,9 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
         {step === 'error' && (
           <div className="flex flex-col items-center justify-center h-80 space-y-4">
             <AlertCircle size={80} className="text-[#FFB74D]" />
-            <p className="font-['Press_Start_2P'] text-[10px] text-[#FFB74D] text-center">CAMERA ERROR</p>
+            <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#FFB74D] text-center">CAMERA ERROR</p>
             <p className="text-white/50 text-xs text-center">Could not access camera. Please grant permission and try again.</p>
-            <button onClick={handleClose} className="bg-[#FFD966] border-4 border-[#8D6E63] rounded-lg px-6 py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41]">
+            <button onClick={handleClose} className="bg-[#FFD966] border-4 border-[#8D6E63] rounded-lg px-6 py-3 font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41]">
               CLOSE
             </button>
           </div>

@@ -49,13 +49,13 @@ export function AddSubscriptionModal({ onClose, onSubmit }: AddSubscriptionModal
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-md bg-[#F5DEB3] border-4 border-[#8D6E63] rounded-lg shadow-[8px_8px_0_0_#6D4C41] max-h-[90vh] overflow-y-auto">
         <div className="bg-[#CE93D8] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between">
-          <h2 className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">ADD SUBSCRIPTION</h2>
+          <h2 className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">ADD SUBSCRIPTION</h2>
           <button onClick={onClose} className="text-[#3E2723] hover:scale-110 transition-transform"><X size={20} /></button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-2">SERVICE NAME</label>
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-2">SERVICE NAME</label>
             <input
               type="text"
               value={name}
@@ -68,7 +68,7 @@ export function AddSubscriptionModal({ onClose, onSubmit }: AddSubscriptionModal
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-2">AMOUNT</label>
+              <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-2">AMOUNT</label>
               <input
                 type="number"
                 value={amount}
@@ -79,7 +79,7 @@ export function AddSubscriptionModal({ onClose, onSubmit }: AddSubscriptionModal
               />
             </div>
             <div>
-              <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-2">BILLING DAY (1-31)</label>
+              <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-2">BILLING DAY (1-31)</label>
               <input
                 type="number"
                 min="1"
@@ -93,7 +93,7 @@ export function AddSubscriptionModal({ onClose, onSubmit }: AddSubscriptionModal
           </div>
 
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-2">CATEGORY</label>
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-2">CATEGORY</label>
             <div className="grid grid-cols-3 gap-2">
               {CATEGORIES.map((cat) => (
                 <button
@@ -112,7 +112,7 @@ export function AddSubscriptionModal({ onClose, onSubmit }: AddSubscriptionModal
           </div>
 
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-2">PAYMENT WALLET</label>
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-2">PAYMENT WALLET</label>
             <select
               value={wallet}
               onChange={(e) => setWallet(e.target.value)}
@@ -124,7 +124,7 @@ export function AddSubscriptionModal({ onClose, onSubmit }: AddSubscriptionModal
 
           <button
             type="submit"
-            className="w-full bg-[#CE93D8] hover:bg-[#BA68C8] border-4 border-[#3E2723] rounded-lg py-4 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-y-1 active:shadow-none transition-all"
+            className="w-full bg-[#CE93D8] hover:bg-[#BA68C8] border-4 border-[#3E2723] rounded-lg py-4 font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-y-1 active:shadow-none transition-all"
           >
             ACTIVATE SUBSCRIPTION
           </button>

@@ -132,28 +132,28 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
         >
           <ArrowLeft size={14} className="text-[#3E2723]" />
         </button>
-        <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E]">Full Calendar</h2>
+        <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#D2691E]">Full Calendar</h2>
       </div>
 
       {/* Monthly summary card */}
       {isCurrentMonth && (
         <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
           <div className="bg-[#64B5F6] border-b-4 border-[#8D6E63] px-4 py-2">
-            <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">
+            <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">
               {MONTH_NAMES[viewMonth].toUpperCase()} {viewYear} SUMMARY
             </h3>
           </div>
           <div className="grid grid-cols-3 divide-x-2 divide-[#E8D5B7]">
             <div className="py-3 text-center bg-[#FFF5F5]">
-              <p className="font-['Press_Start_2P'] text-[9px] text-[#D32F2F]">₱{totalSpent.toLocaleString()}</p>
+              <p className="font-['VCR_OSD_Mono'] text-[9px] text-[#D32F2F]">₱{totalSpent.toLocaleString()}</p>
               <p className="text-[7px] text-[#6D4C41] mt-1">Spent</p>
             </div>
             <div className="py-3 text-center bg-[#F5FFF5]">
-              <p className="font-['Press_Start_2P'] text-[9px] text-[#2E7D32]">₱{totalIncome.toLocaleString()}</p>
+              <p className="font-['VCR_OSD_Mono'] text-[9px] text-[#2E7D32]">₱{totalIncome.toLocaleString()}</p>
               <p className="text-[7px] text-[#6D4C41] mt-1">Earned</p>
             </div>
             <div className="py-3 text-center bg-[#FFFDE7]">
-              <p className={`font-['Press_Start_2P'] text-[9px] ${netTotal >= 0 ? 'text-[#2E7D32]' : 'text-[#D32F2F]'}`}>
+              <p className={`font-['VCR_OSD_Mono'] text-[9px] ${netTotal >= 0 ? 'text-[#2E7D32]' : 'text-[#D32F2F]'}`}>
                 {netTotal >= 0 ? '+' : ''}₱{netTotal.toLocaleString()}
               </p>
               <p className="text-[7px] text-[#6D4C41] mt-1">Net</p>
@@ -173,7 +173,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
           >
             <ChevronLeft size={12} className="text-[#3E2723]" />
           </button>
-          <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">
+          <span className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">
             {MONTH_NAMES[viewMonth].slice(0,3).toUpperCase()} {viewYear}
           </span>
           <button
@@ -189,7 +189,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
           {DAY_LABELS.map((d, i) => (
             <div
               key={i}
-              className="text-center py-1.5 font-['Press_Start_2P'] text-[7px] text-[#8D6E63]"
+              className="text-center py-1.5 font-['VCR_OSD_Mono'] text-[7px] text-[#8D6E63]"
             >
               {d}
             </div>
@@ -228,14 +228,14 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
                 {/* Day number + today marker */}
                 <div className="flex items-center justify-between px-1 pt-1">
                   <span
-                    className={`font-['Press_Start_2P'] text-[8px] leading-none
+                    className={`font-['VCR_OSD_Mono'] text-[8px] leading-none
                       ${!isValid ? 'text-transparent' : isToday ? 'text-[#1565C0]' : isSelected ? 'text-[#D2691E]' : 'text-[#3E2723]'}
                     `}
                   >
                     {isValid ? dayNum : ''}
                   </span>
                   {isToday && (
-                    <span className="text-[5px] font-['Press_Start_2P'] text-[#1565C0] leading-none">NOW</span>
+                    <span className="text-[5px] font-['VCR_OSD_Mono'] text-[#1565C0] leading-none">NOW</span>
                   )}
                 </div>
 
@@ -245,7 +245,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
                     {data.spent > 0 && (
                       <div className="flex items-center gap-0.5 bg-[#FFEBEE] border border-[#FFCDD2] rounded px-1 py-0.5">
                         <div className="w-1 h-1 rounded-full bg-[#EF5350] flex-shrink-0" />
-                        <span className="font-['Press_Start_2P'] text-[5.5px] text-[#C62828] leading-none truncate">
+                        <span className="font-['VCR_OSD_Mono'] text-[5.5px] text-[#C62828] leading-none truncate">
                           ₱{data.spent >= 1000 ? `${(data.spent / 1000).toFixed(1)}k` : data.spent}
                         </span>
                       </div>
@@ -253,7 +253,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
                     {data.income > 0 && (
                       <div className="flex items-center gap-0.5 bg-[#E8F5E9] border border-[#C8E6C9] rounded px-1 py-0.5">
                         <div className="w-1 h-1 rounded-full bg-[#4CAF50] flex-shrink-0" />
-                        <span className="font-['Press_Start_2P'] text-[5.5px] text-[#2E7D32] leading-none truncate">
+                        <span className="font-['VCR_OSD_Mono'] text-[5.5px] text-[#2E7D32] leading-none truncate">
                           +₱{data.income >= 1000 ? `${(data.income / 1000).toFixed(1)}k` : data.income}
                         </span>
                       </div>
@@ -297,7 +297,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
         <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
           {/* Panel header */}
           <div className="bg-[#FFD966] border-b-4 border-[#8D6E63] px-4 py-2 flex items-center justify-between">
-            <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">
+            <span className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">
               📅 {MONTH_NAMES[viewMonth].slice(0,3).toUpperCase()} {selectedDay}
             </span>
             <button
@@ -321,7 +321,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
               },
             ].map(({ label, value, color, bg }) => (
               <div key={label} className="py-3 text-center" style={{ background: bg }}>
-                <p className="font-['Press_Start_2P'] text-[9px]" style={{ color }}>{value}</p>
+                <p className="font-['VCR_OSD_Mono'] text-[9px]" style={{ color }}>{value}</p>
                 <p className="text-[7px] text-[#8D6E63] mt-1">{label}</p>
               </div>
             ))}
@@ -331,7 +331,7 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
           {selectedDayData.transactions.length === 0 ? (
             <div className="py-8 text-center">
               <p className="text-3xl mb-2">😴</p>
-              <p className="font-['Press_Start_2P'] text-[8px] text-[#8D6E63]">No activity</p>
+              <p className="font-['VCR_OSD_Mono'] text-[8px] text-[#8D6E63]">No activity</p>
             </div>
           ) : (
             <div className="divide-y-2 divide-[#F5EDE0]">
@@ -347,12 +347,12 @@ export function CalendarPage({ onClose, transactions }: CalendarPageProps) {
                   />
                   <span className="text-base flex-shrink-0">{t.category}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] truncate">{t.description}</p>
+                    <p className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] truncate">{t.description}</p>
                     <p className="text-[7px] text-[#8D6E63]">{t.wallet}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <p
-                      className="font-['Press_Start_2P'] text-[9px]"
+                      className="font-['VCR_OSD_Mono'] text-[9px]"
                       style={{
                         color: t.type === 'income' ? '#2E7D32' : t.type === 'debt_payment' ? '#7B1FA2' : '#D32F2F'
                       }}

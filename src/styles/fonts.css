@@ -1,1 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap');
+@font-face {
+  font-family: 'VCR OSD Mono';
+  src: url('../app/components/VCR_OSD_MONO_1.001.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MADE Tommy Soft';
+  src: url('../app/made_tommy_soft/MADE%20Tommy%20Soft%20Regular%20PERSONAL%20USE.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MADE Tommy Soft';
+  src: url('../app/made_tommy_soft/MADE%20Tommy%20Soft%20Medium%20PERSONAL%20USE.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MADE Tommy Soft';
+  src: url('../app/made_tommy_soft/MADE%20Tommy%20Soft%20Bold%20PERSONAL%20USE.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MADE Tommy Soft';
+  src: url('../app/made_tommy_soft/MADE%20Tommy%20Soft%20ExtraBold%20PERSONAL%20USE.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'MADE Tommy Soft', sans-serif;
+}

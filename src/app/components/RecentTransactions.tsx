@@ -20,7 +20,7 @@ export function RecentTransactions({ transactions, onDeleteTransaction }: Recent
   return (
     <div className="bg-white border-4 border-[#8D6E63] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
       <div className="bg-[#FFD966] px-4 py-2 border-b-4 border-[#8D6E63]">
-        <h3 className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">
+        <h3 className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">
           RECENT TRANSACTIONS
         </h3>
       </div>
@@ -47,7 +47,7 @@ export function RecentTransactions({ transactions, onDeleteTransaction }: Recent
 
               <div className="text-right flex items-center gap-3">
                 <div>
-                  <p className={`font-['Press_Start_2P'] text-[10px] ${
+                  <p className={`font-['VCR_OSD_Mono'] text-[10px] ${
                     transaction.type === 'income' ? 'text-[#2E7D32]' : 'text-[#D32F2F]'
                   }`}>
                     {transaction.type === 'income' ? '+' : '-'}₱{transaction.amount}
@@ -73,7 +73,7 @@ export function RecentTransactions({ transactions, onDeleteTransaction }: Recent
       </div>
 
       <button className="w-full py-3 bg-[#FFF9E6] hover:bg-[#FFD966]/50 border-t-4 border-[#8D6E63] transition-colors">
-        <span className="font-['Press_Start_2P'] text-[8px] text-[#D2691E]">
+        <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E]">
           VIEW ALL →
         </span>
       </button>

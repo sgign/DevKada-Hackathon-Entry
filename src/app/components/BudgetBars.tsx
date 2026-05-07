@@ -22,7 +22,7 @@ export function BudgetBars({ budget }: BudgetBarsProps) {
       {/* This Month's Budget */}
       <div className="bg-white border-4 border-[#8D6E63] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41]">
         <div className="flex justify-between items-center mb-2">
-          <span className="font-['Press_Start_2P'] text-[8px] text-[#D2691E]">THIS MONTH</span>
+          <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E]">THIS MONTH</span>
           <span className="text-xs text-[#6D4C41]">
             {formatCurrency(budget.monthly.spent)} / {formatCurrency(budget.monthly.total)}
           </span>
@@ -37,7 +37,7 @@ export function BudgetBars({ budget }: BudgetBarsProps) {
             }}
           />
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+            <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
               {Math.round(getMonthlyPercentage())}%
             </span>
           </div>

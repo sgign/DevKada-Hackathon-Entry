@@ -34,7 +34,7 @@ export function AddPigGoalModal({ onClose, onSubmit }: AddPigGoalModalProps) {
       <div className="w-full max-w-md bg-[#F5DEB3] border-t-4 border-[#8D6E63] rounded-t-3xl max-h-[90vh] overflow-y-auto custom-scrollbar">
         {/* Header */}
         <div className="sticky top-0 bg-[#FFB6C1] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between shadow-[0_4px_0_0_#6D4C41] z-10">
-          <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
+          <h2 className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723]">
             ADD NEW GOAL
           </h2>
           <button
@@ -49,7 +49,7 @@ export function AddPigGoalModal({ onClose, onSubmit }: AddPigGoalModalProps) {
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Goal Name */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               GOAL NAME
             </label>
             <input
@@ -65,7 +65,7 @@ export function AddPigGoalModal({ onClose, onSubmit }: AddPigGoalModalProps) {
 
           {/* Goal Amount */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               TARGET AMOUNT
             </label>
             <div className="relative">
@@ -85,7 +85,7 @@ export function AddPigGoalModal({ onClose, onSubmit }: AddPigGoalModalProps) {
 
           {/* Target Date */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               TARGET DATE
             </label>
             <input
@@ -99,7 +99,7 @@ export function AddPigGoalModal({ onClose, onSubmit }: AddPigGoalModalProps) {
 
           {/* Emoji Selection */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               EMOJI (OPTIONAL)
             </label>
             <div className="flex flex-wrap gap-2">
@@ -124,7 +124,7 @@ export function AddPigGoalModal({ onClose, onSubmit }: AddPigGoalModalProps) {
           <button
             type="submit"
             disabled={!name || !targetAmount || !deadline}
-            className={`w-full bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]`}
+            className={`w-full bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]`}
           >
             ADD PIG GOAL
           </button>

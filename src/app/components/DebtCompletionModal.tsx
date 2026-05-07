@@ -14,7 +14,7 @@ export function DebtCompletionModal({ debtName, debtEmoji, totalAmount, onClose,
       <div className="w-full max-w-sm bg-[#F5DEB3] border-4 border-[#8D6E63] rounded-2xl shadow-[8px_8px_0_0_#6D4C41] animate-bounce-once">
         {/* Header */}
         <div className="bg-[#81C784] px-6 py-4 border-b-4 border-[#8D6E63] rounded-t-xl flex items-center justify-between">
-          <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
+          <h2 className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723]">
             DEBT PAID! 🎉
           </h2>
           <button
@@ -33,13 +33,13 @@ export function DebtCompletionModal({ debtName, debtEmoji, totalAmount, onClose,
           </div>
 
           <div className="space-y-2">
-            <p className="font-['Press_Start_2P'] text-sm text-[#81C784]">
+            <p className="font-['VCR_OSD_Mono'] text-sm text-[#81C784]">
               CONGRATULATIONS!
             </p>
             <p className="text-sm text-[#3E2723]">
               You've fully paid off
             </p>
-            <p className="font-['Press_Start_2P'] text-[10px] text-[#D2691E]">
+            <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#D2691E]">
               {debtName}
             </p>
             <p className="text-sm text-[#6D4C41] mt-3">
@@ -60,13 +60,13 @@ export function DebtCompletionModal({ debtName, debtEmoji, totalAmount, onClose,
           <div className="flex gap-3 pt-4">
             <button
               onClick={onClose}
-              className="flex-1 bg-white hover:bg-[#FFF9E6] border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              className="flex-1 bg-white hover:bg-[#FFF9E6] border-4 border-[#8D6E63] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
             >
               KEEP IT
             </button>
             <button
               onClick={onRemove}
-              className="flex-1 bg-[#81C784] hover:bg-[#81C784]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              className="flex-1 bg-[#81C784] hover:bg-[#81C784]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
             >
               REMOVE
             </button>

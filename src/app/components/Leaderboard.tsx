@@ -94,11 +94,11 @@ export function Leaderboard() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-xl">🏆</span>
-            <h3 className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+            <h3 className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
               FRIEND GOALS
             </h3>
           </div>
-          <span className="font-['Press_Start_2P'] text-[8px] text-[#6D4C41]">
+          <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#6D4C41]">
             {friends.length} PIGS
           </span>
         </div>
@@ -126,7 +126,7 @@ export function Leaderboard() {
                 >
                   <span className="text-xs">
                     {typeof badge.emoji === 'string' && badge.emoji.startsWith('#') ? (
-                      <span className="font-['Press_Start_2P'] text-[8px]">{badge.emoji}</span>
+                      <span className="font-['VCR_OSD_Mono'] text-[8px]">{badge.emoji}</span>
                     ) : (
                       badge.emoji
                     )}
@@ -137,7 +137,7 @@ export function Leaderboard() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-lg">{friend.avatar}</span>
-                    <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723] truncate">
+                    <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723] truncate">
                       {friend.name}
                       {isCurrentUser && (
                         <span className="ml-1 text-[#F4A460]">★</span>
@@ -160,7 +160,7 @@ export function Leaderboard() {
                     <span>
                       {formatCurrency(friend.saved)} / {formatCurrency(friend.goal)}
                     </span>
-                    <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">
+                    <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">
                       {friend.progress}%
                     </span>
                   </div>
@@ -172,7 +172,7 @@ export function Leaderboard() {
                 <div className="mt-2 pt-2 border-t-2 border-[#E8D5B7]">
                   <div className="flex items-center gap-1">
                     <span className="text-xs">✨</span>
-                    <span className="font-['Press_Start_2P'] text-[8px] text-[#81C784]">
+                    <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#81C784]">
                       ALMOST THERE!
                     </span>
                   </div>
@@ -187,7 +187,7 @@ export function Leaderboard() {
       <div className="bg-[#FFD966] border-4 border-[#8D6E63] rounded-lg p-3 shadow-[4px_4px_0_0_#6D4C41]">
         <div className="flex items-center justify-center gap-2">
           <span className="text-lg">💪</span>
-          <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">
+          <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">
             KEEP SAVING!
           </span>
         </div>

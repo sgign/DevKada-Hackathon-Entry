@@ -37,7 +37,7 @@ export function AISpendingAdvice({ transactions, budgetInfo, goalsInfo }: AISpen
       <div className="bg-[#CE93D8] px-4 py-2 border-b-4 border-[#8D6E63] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Brain size={16} className="text-[#3E2723]" />
-          <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">CHICHA'S FINANCIAL ADVICE</h3>
+          <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">CHICHA'S FINANCIAL ADVICE</h3>
         </div>
         <button 
           onClick={fetchAdvice}
@@ -52,7 +52,7 @@ export function AISpendingAdvice({ transactions, budgetInfo, goalsInfo }: AISpen
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-8 space-y-3">
             <Loader2 size={32} className="animate-spin text-[#8D6E63]" />
-            <p className="font-['Press_Start_2P'] text-[8px] text-[#8D6E63] animate-pulse text-center">
+            <p className="font-['VCR_OSD_Mono'] text-[8px] text-[#8D6E63] animate-pulse text-center">
               ANALYZING YOUR HABITS...
             </p>
           </div>
@@ -75,7 +75,7 @@ export function AISpendingAdvice({ transactions, budgetInfo, goalsInfo }: AISpen
                     if (!cleanLine) return null;
 
                     if (line.startsWith('#') || line.match(/^\d\./)) {
-                      return <p key={i} className="font-['Press_Start_2P'] text-[7px] text-[#D2691E] mt-2 mb-1">{cleanLine}</p>;
+                      return <p key={i} className="font-['VCR_OSD_Mono'] text-[7px] text-[#D2691E] mt-2 mb-1">{cleanLine}</p>;
                     }
                     return <p key={i} className="mb-1">{cleanLine}</p>;
                   })}
@@ -85,7 +85,7 @@ export function AISpendingAdvice({ transactions, budgetInfo, goalsInfo }: AISpen
           </div>
         ) : (
           <div className="text-center py-4">
-            <p className="font-['Press_Start_2P'] text-[8px] text-[#8D6E63]">
+            <p className="font-['VCR_OSD_Mono'] text-[8px] text-[#8D6E63]">
               LOG SOME TRANSACTIONS TO GET ADVICE FROM CHICHA!
             </p>
           </div>

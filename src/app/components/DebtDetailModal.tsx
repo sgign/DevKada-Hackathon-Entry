@@ -38,7 +38,7 @@ export function DebtDetailModal({ debt, onClose, onAddPayment }: DebtDetailModal
         {/* Header */}
         <div className="sticky top-0 bg-[#EF9A9A] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between shadow-[0_4px_0_0_#6D4C41]">
           <div>
-            <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723] mb-1">
+            <h2 className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723] mb-1">
               Debt tracker
             </h2>
             <p className="text-[8px] text-[#6D4C41]">{debt.name}</p>
@@ -82,7 +82,7 @@ export function DebtDetailModal({ debt, onClose, onAddPayment }: DebtDetailModal
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <span className="text-4xl block mb-1">{debt.emoji}</span>
-                  <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+                  <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
                     {percentage.toFixed(0)}%
                   </span>
                 </div>
@@ -94,25 +94,25 @@ export function DebtDetailModal({ debt, onClose, onAddPayment }: DebtDetailModal
           <div className="bg-white border-4 border-[#8D6E63] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-[10px] text-[#6D4C41]">Amount Paid:</span>
-              <span className="font-['Press_Start_2P'] text-[10px] text-[#81C784]">
+              <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#81C784]">
                 ₱{debt.paidAmount.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-[10px] text-[#6D4C41]">Amount of Debt:</span>
-              <span className="font-['Press_Start_2P'] text-[10px] text-[#D32F2F]">
+              <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#D32F2F]">
                 ₱{remaining.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-[10px] text-[#6D4C41]">Starting Date:</span>
-              <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+              <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
                 {debt.startDate}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-[10px] text-[#6D4C41]">End date:</span>
-              <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+              <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
                 {debt.endDate}
               </span>
             </div>
@@ -121,7 +121,7 @@ export function DebtDetailModal({ debt, onClose, onAddPayment }: DebtDetailModal
           {/* Transaction Log */}
           <div className="bg-white border-4 border-[#8D6E63] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
             <div className="bg-[#FFD966] px-4 py-2 border-b-4 border-[#8D6E63]">
-              <h3 className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">
+              <h3 className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">
                 Transaction Log
               </h3>
             </div>
@@ -129,13 +129,13 @@ export function DebtDetailModal({ debt, onClose, onAddPayment }: DebtDetailModal
               <table className="w-full">
                 <thead className="bg-[#FFF9E6] border-b-2 border-[#8D6E63]">
                   <tr>
-                    <th className="px-3 py-2 text-left font-['Press_Start_2P'] text-[7px] text-[#3E2723]">
+                    <th className="px-3 py-2 text-left font-['VCR_OSD_Mono'] text-[7px] text-[#3E2723]">
                       Amount Paid
                     </th>
-                    <th className="px-3 py-2 text-left font-['Press_Start_2P'] text-[7px] text-[#3E2723]">
+                    <th className="px-3 py-2 text-left font-['VCR_OSD_Mono'] text-[7px] text-[#3E2723]">
                       Date
                     </th>
-                    <th className="px-3 py-2 text-left font-['Press_Start_2P'] text-[7px] text-[#3E2723]">
+                    <th className="px-3 py-2 text-left font-['VCR_OSD_Mono'] text-[7px] text-[#3E2723]">
                       Wallet
                     </th>
                   </tr>
@@ -170,7 +170,7 @@ export function DebtDetailModal({ debt, onClose, onAddPayment }: DebtDetailModal
           {/* Add Payment Button */}
           <button
             onClick={onAddPayment}
-            className="w-full bg-[#81C784] hover:bg-[#81C784]/80 border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            className="w-full bg-[#81C784] hover:bg-[#81C784]/80 border-4 border-[#8D6E63] rounded-lg py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
           >
             + ADD PAYMENT
           </button>

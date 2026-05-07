@@ -91,7 +91,7 @@ export function PigDisplay({ state, dailyBudget, overBudgetDays = 0 }: PigDispla
       <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
         {/* Speech bubble */}
         <div className="relative bg-white text-[#3E2723] px-3 py-2 rounded-lg border-4 border-[#3E2723] w-full max-w-[200px] shadow-[3px_3px_0_0_#6D4C41] min-h-[60px] flex flex-col justify-center">
-          <p className="font-['Press_Start_2P'] text-[8px] text-center leading-relaxed">
+          <p className="font-['VCR_OSD_Mono'] text-[8px] text-center leading-relaxed">
             {moodConfig.text}
           </p>
 

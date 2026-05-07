@@ -67,7 +67,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
       <div className="w-full max-w-md bg-[#F5DEB3] border-t-4 border-[#8D6E63] rounded-t-3xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-[#EF9A9A] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between shadow-[0_4px_0_0_#6D4C41]">
-          <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
+          <h2 className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723]">
             ADD NEW DEBT
           </h2>
           <button
@@ -82,7 +82,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Debt Name */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               DEBT NAME
             </label>
             <input
@@ -98,7 +98,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
 
           {/* Icon Selection */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               ICON
             </label>
             <div className="grid grid-cols-5 gap-2">
@@ -122,7 +122,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
 
           {/* Amount */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               TOTAL AMOUNT
             </label>
             <div className="relative">
@@ -143,7 +143,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
           {/* Date Range */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+              <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
                 START DATE
               </label>
               <input
@@ -155,7 +155,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
               />
             </div>
             <div>
-              <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+              <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
                 END DATE
               </label>
               <input
@@ -172,7 +172,7 @@ export function AddDebtModal({ onClose, onSubmit }: AddDebtModalProps) {
           <button
             type="submit"
             disabled={!name || !amount || !startDate || !endDate}
-            className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]"
+            className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]"
           >
             ADD DEBT
           </button>

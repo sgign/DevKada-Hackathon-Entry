@@ -64,7 +64,7 @@ export function MiniLeaderboard({ farm }: { farm: Farm }) {
       >
         <div className="flex items-center gap-2">
           <span className="text-sm">🏆</span>
-          <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">LEADERBOARD</h3>
+          <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">LEADERBOARD</h3>
         </div>
         {isMinimized ? <ChevronDown size={16} className="text-[#3E2723]" /> : <ChevronUp size={16} className="text-[#3E2723]" />}
       </div>
@@ -74,14 +74,14 @@ export function MiniLeaderboard({ farm }: { farm: Farm }) {
           {farm.type === 'collaborative' && (
             <div className="flex border-b-4 border-[#8D6E63]">
               <button
-                className={`flex-1 py-2.5 font-['Press_Start_2P'] text-[7px] text-center transition-colors ${viewMode === 'farm' ? 'bg-[#A8D5BA] text-[#3E2723]' : 'bg-transparent text-[#6D4C41]'}`}
+                className={`flex-1 py-2.5 font-['VCR_OSD_Mono'] text-[7px] text-center transition-colors ${viewMode === 'farm' ? 'bg-[#A8D5BA] text-[#3E2723]' : 'bg-transparent text-[#6D4C41]'}`}
                 onClick={(e) => { e.stopPropagation(); setViewMode('farm'); }}
               >
                 FARM
               </button>
               <div className="w-[4px] bg-[#8D6E63]" />
               <button
-                className={`flex-1 py-2.5 font-['Press_Start_2P'] text-[7px] text-center transition-colors ${viewMode === 'global' ? 'bg-[#A8D5BA] text-[#3E2723]' : 'bg-transparent text-[#6D4C41]'}`}
+                className={`flex-1 py-2.5 font-['VCR_OSD_Mono'] text-[7px] text-center transition-colors ${viewMode === 'global' ? 'bg-[#A8D5BA] text-[#3E2723]' : 'bg-transparent text-[#6D4C41]'}`}
                 onClick={(e) => { e.stopPropagation(); setViewMode('global'); }}
               >
                 GLOBAL
@@ -92,14 +92,14 @@ export function MiniLeaderboard({ farm }: { farm: Farm }) {
           <div className="p-3 space-y-2">
             {displayFriends.map((friend) => (
               <div key={friend.id} className="flex items-center gap-2 bg-white border-2 border-[#8D6E63] rounded p-2">
-                <span className="font-['Press_Start_2P'] text-[8px] text-[#D2691E] w-6">#{friend.rank}</span>
+                <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] w-6">#{friend.rank}</span>
                 <span className="text-sm">{friend.avatar}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-['Press_Start_2P'] text-[7px] text-[#3E2723] truncate">
+                    <span className="font-['VCR_OSD_Mono'] text-[7px] text-[#3E2723] truncate">
                       {friend.name} {friend.name === 'You' ? '★' : ''}
                     </span>
-                    <span className="font-['Press_Start_2P'] text-[6px] text-[#6D4C41]">{friend.progress}%</span>
+                    <span className="font-['VCR_OSD_Mono'] text-[6px] text-[#6D4C41]">{friend.progress}%</span>
                   </div>
                   <div className="h-2 bg-[#E8D5B7] rounded overflow-hidden border border-[#8D6E63]">
                     <div 
@@ -112,7 +112,7 @@ export function MiniLeaderboard({ farm }: { farm: Farm }) {
             ))}
             {viewMode === 'global' && (
               <div className="pt-1 text-center">
-                 <span className="font-['Press_Start_2P'] text-[6px] text-[#6D4C41] opacity-70">Check 'Board' tab for full list</span>
+                 <span className="font-['VCR_OSD_Mono'] text-[6px] text-[#6D4C41] opacity-70">Check 'Board' tab for full list</span>
               </div>
             )}
           </div>

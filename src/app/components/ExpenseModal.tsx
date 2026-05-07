@@ -48,7 +48,7 @@ export function ExpenseModal({ onClose, onSubmit }: ExpenseModalProps) {
       <div className="w-full max-w-md bg-[#F5DEB3] border-t-4 border-[#8D6E63] rounded-t-3xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-[#FFD966] px-6 py-4 border-b-4 border-[#8D6E63] flex items-center justify-between shadow-[0_4px_0_0_#6D4C41]">
-          <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
+          <h2 className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723]">
             LOG EXPENSE
           </h2>
           <button
@@ -63,7 +63,7 @@ export function ExpenseModal({ onClose, onSubmit }: ExpenseModalProps) {
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Amount */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               AMOUNT
             </label>
             <div className="relative">
@@ -84,7 +84,7 @@ export function ExpenseModal({ onClose, onSubmit }: ExpenseModalProps) {
 
           {/* Category */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               CATEGORY
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -108,7 +108,7 @@ export function ExpenseModal({ onClose, onSubmit }: ExpenseModalProps) {
 
           {/* Wallet */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               WALLET
             </label>
             <select
@@ -124,7 +124,7 @@ export function ExpenseModal({ onClose, onSubmit }: ExpenseModalProps) {
 
           {/* Description */}
           <div>
-            <label className="block font-['Press_Start_2P'] text-[8px] text-[#D2691E] mb-3">
+            <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E] mb-3">
               DESCRIPTION (Optional)
             </label>
             <input
@@ -140,7 +140,7 @@ export function ExpenseModal({ onClose, onSubmit }: ExpenseModalProps) {
           <button
             type="submit"
             disabled={!amount || !category}
-            className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]"
+            className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 disabled:bg-[#BCAAA4] disabled:cursor-not-allowed border-4 border-[#8D6E63] rounded-lg py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41]"
           >
             SAVE EXPENSE
           </button>

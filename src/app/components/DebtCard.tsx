@@ -53,21 +53,21 @@ export function DebtCard({ debt, onClick }: DebtCardProps) {
 
         {/* Debt Info */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-['Press_Start_2P'] text-[10px] text-[#3E2723] mb-2 truncate">
+          <h3 className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723] mb-2 truncate">
             {debt.name}
           </h3>
           <div className="space-y-1">
             <div className="flex justify-between text-[8px]">
               <span className="text-[#6D4C41]">Remaining:</span>
-              <span className="font-['Press_Start_2P'] text-[#D32F2F]">₱{remaining.toLocaleString()}</span>
+              <span className="font-['VCR_OSD_Mono'] text-[#D32F2F]">₱{remaining.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-[8px]">
               <span className="text-[#6D4C41]">Total:</span>
-              <span className="font-['Press_Start_2P'] text-[#3E2723]">₱{debt.totalAmount.toLocaleString()}</span>
+              <span className="font-['VCR_OSD_Mono'] text-[#3E2723]">₱{debt.totalAmount.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-[8px]">
               <span className="text-[#6D4C41]">Progress:</span>
-              <span className="font-['Press_Start_2P'] text-[#81C784]">{percentage.toFixed(0)}%</span>
+              <span className="font-['VCR_OSD_Mono'] text-[#81C784]">{percentage.toFixed(0)}%</span>
             </div>
           </div>
         </div>

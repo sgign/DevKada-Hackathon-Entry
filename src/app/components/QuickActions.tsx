@@ -16,7 +16,7 @@ export function QuickActions({ onAddExpense, onAddIncome, onScanReceipt }: Quick
         >
           <div className="flex flex-col items-center gap-2">
             <PlusCircle size={32} className="text-[#3E2723]" />
-            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">LOG EXPENSE</span>
+            <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">LOG EXPENSE</span>
           </div>
         </button>
 
@@ -26,7 +26,7 @@ export function QuickActions({ onAddExpense, onAddIncome, onScanReceipt }: Quick
         >
           <div className="flex flex-col items-center gap-2">
             <span className="text-3xl leading-none">💵</span>
-            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">LOG INCOME</span>
+            <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">LOG INCOME</span>
           </div>
         </button>
       </div>
@@ -37,7 +37,7 @@ export function QuickActions({ onAddExpense, onAddIncome, onScanReceipt }: Quick
       >
         <div className="flex flex-col items-center gap-2">
           <Camera size={32} className="text-[#3E2723]" />
-          <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">SCAN RECEIPT</span>
+          <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">SCAN RECEIPT</span>
         </div>
       </button>
     </div>

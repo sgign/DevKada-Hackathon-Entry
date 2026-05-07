@@ -853,12 +853,12 @@ export default function App() {
         <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
           <div className="flex items-center gap-2">
             <img src={smallPigIcon} alt="pig" className="h-6 w-auto object-contain" style={{ imageRendering: 'pixelated' }} />
-            <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
+            <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">CHICHA</span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1 bg-[#FFD966] px-2 py-1 rounded border-2 border-[#3E2723] shadow-[2px_2px_0_0_#3E2723]">
               <span className="text-xs">💰</span>
-              <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">{coins}</span>
+              <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">{coins}</span>
             </div>
             <button className="text-xl">🔔</button>
           </div>
@@ -871,7 +871,7 @@ export default function App() {
               {/* Greeting & Streak */}
               <div className="relative flex justify-center items-center">
                 <div className="text-center">
-                  <h1 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-1">
+                  <h1 className="font-['VCR_OSD_Mono'] text-sm text-[#D2691E] mb-1">
                     Good {getCurrentTime()}!
                   </h1>
                   <p className="text-xs text-[#6D4C41]">
@@ -888,7 +888,7 @@ export default function App() {
                   onClick={() => alert('Streak history coming soon!')}
                 >
                   <span className="text-xs">🔥</span>
-                  <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">{streak}</span>
+                  <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">{streak}</span>
                 </div>
               </div>
 
@@ -900,7 +900,7 @@ export default function App() {
               />              {/* Daily Budget Button */}
               <button
                 onClick={() => { setBudgetInput(String(budget.daily.total)); setShowBudgetModal(true); }}
-                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-2"
+                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-2"
               >
                 <span>📊</span> daily budget: ₱{budget.daily.total.toLocaleString()}
               </button>
@@ -917,10 +917,10 @@ export default function App() {
                       className={`${style.bg} border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] relative overflow-hidden cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform`}
                     >
                       <div className="flex justify-between items-start mb-2">
-                        <span className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">{name}</span>
+                        <span className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">{name}</span>
                         <span className="text-xs">{style.icon}</span>
                       </div>
-                      <p className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">{balance.toLocaleString()}</p>
+                      <p className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723] mb-2">{balance.toLocaleString()}</p>
                       <div className={`absolute bottom-2 right-2 ${style.bgIconClass}`}>{style.bgIcon}</div>
                     </div>
                   );
@@ -930,7 +930,7 @@ export default function App() {
               {/* Add Account Button */}
               <button 
                 onClick={() => setShowAddWalletModal(true)}
-                className="w-full bg-[#3E2723] hover:bg-[#6D4C41] border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#A8D5BA] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="w-full bg-[#3E2723] hover:bg-[#6D4C41] border-4 border-[#3E2723] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[9px] text-[#A8D5BA] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 + add account
               </button>
@@ -943,7 +943,7 @@ export default function App() {
               ? <CalendarPage onClose={() => setShowCalendar(false)} transactions={transactions} />
               : (
             <div className="p-4 space-y-4">
-              <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4">Transaction Log</h2>
+              <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#D2691E] mb-4">Transaction Log</h2>
 
               {/* Quick Actions */}
               <QuickActions 
@@ -978,16 +978,16 @@ export default function App() {
               {/* Monthly Summary */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
                 <div className="bg-[#64B5F6] px-4 py-2 border-b-4 border-[#8D6E63]">
-                  <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">MAY 2026 SUMMARY</h3>
+                  <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">MAY 2026 SUMMARY</h3>
                 </div>
                 <div className="p-4 space-y-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg p-3 text-center">
-                      <p className="font-['Press_Start_2P'] text-[10px] text-[#D32F2F] mb-1">₱{monthlyStats.totalSpent.toLocaleString()}</p>
+                      <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#D32F2F] mb-1">₱{monthlyStats.totalSpent.toLocaleString()}</p>
                       <p className="text-[7px] text-[#6D4C41]">Total Spent</p>
                     </div>
                     <div className="bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg p-3 text-center">
-                      <p className="font-['Press_Start_2P'] text-[10px] text-[#2E7D32] mb-1">₱{monthlyStats.totalIncome.toLocaleString()}</p>
+                      <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#2E7D32] mb-1">₱{monthlyStats.totalIncome.toLocaleString()}</p>
                       <p className="text-[7px] text-[#6D4C41]">Total Income</p>
                     </div>
                   </div>
@@ -997,15 +997,15 @@ export default function App() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <span className="text-xl">{monthlyStats.topCategory.emoji}</span>
-                          <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">{monthlyStats.topCategory.name}</span>
+                          <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">{monthlyStats.topCategory.name}</span>
                         </div>
-                        <span className="font-['Press_Start_2P'] text-[8px] text-[#D2691E]">₱{monthlyStats.topCategory.total.toLocaleString()}</span>
+                        <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E]">₱{monthlyStats.topCategory.total.toLocaleString()}</span>
                       </div>
                     </div>
                   )}
                   <button
                     onClick={() => setShowCalendar(true)}
-                    className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                    className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
                   >
                     view full calendar
                   </button>
@@ -1040,12 +1040,12 @@ export default function App() {
               <div className="px-4 py-3 flex items-center justify-between border-b-4 border-[#8D6E63] bg-[#A8D5BA] shadow-[0_4px_0_0_#6B8E7C]">
                 <div className="flex items-center gap-2">
                   <img src={smallPigIcon} alt="pig" className="h-6 w-auto object-contain" style={{ imageRendering: 'pixelated' }} />
-                  <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">CHICHA</span>
+                  <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">CHICHA</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1 bg-[#FFD966] px-2 py-1 rounded border-2 border-[#3E2723] shadow-[2px_2px_0_0_#3E2723]">
                     <span className="text-xs">💰</span>
-                    <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">{coins}</span>
+                    <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">{coins}</span>
                   </div>
                   <button className="text-xl">🔔</button>
                 </div>
@@ -1062,11 +1062,11 @@ export default function App() {
                 <div className="text-center pt-4 px-4 space-y-3">
                 {/* Farm Selector Dropdown */}
                 <div className="flex flex-col items-center gap-2">
-                  <label className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">SELECT FARM</label>
+                  <label className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">SELECT FARM</label>
                   <select
                     value={selectedFarmId}
                     onChange={(e) => setSelectedFarmId(Number(e.target.value))}
-                    className="bg-[#FFD966] border-4 border-[#3E2723] rounded-lg px-4 py-2.5 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] focus:outline-none focus:border-[#D2691E] cursor-pointer min-w-[220px]"
+                    className="bg-[#FFD966] border-4 border-[#3E2723] rounded-lg px-4 py-2.5 font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] focus:outline-none focus:border-[#D2691E] cursor-pointer min-w-[220px]"
                   >
                     {farms.map(farm => (
                       <option key={farm.id} value={farm.id}>
@@ -1081,13 +1081,13 @@ export default function App() {
                   {selectedFarm.type === 'collaborative' && selectedFarm.collaborators && (
                     <div className="bg-[#A8D5BA] border-3 border-[#3E2723] rounded-lg px-3 py-2 shadow-[3px_3px_0_0_#6D4C41] flex flex-col justify-center text-center">
                       <p className="text-[8px] text-[#6D4C41] mb-1">Collaborators:</p>
-                      <p className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">
+                      <p className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">
                         {selectedFarm.collaborators.join(', ')}
                       </p>
                     </div>
                   )}
                   <div className="bg-[#FFD966] border-3 border-[#3E2723] rounded-lg px-4 py-2 shadow-[3px_3px_0_0_#6D4C41] flex items-center justify-center">
-                    <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+                    <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
                       🐷 {selectedFarm.numPigs} Pig{selectedFarm.numPigs !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -1155,7 +1155,7 @@ export default function App() {
                 
                 <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41] mt-4">
                   <div className="bg-[#A8D5BA] px-4 py-2 border-b-4 border-[#8D6E63]">
-                    <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">GOALS & SAVINGS</h3>
+                    <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">GOALS & SAVINGS</h3>
                   </div>
                   <div className="p-4 space-y-3">
                     {selectedFarm.pigGoals.map((goal, i) => {
@@ -1170,7 +1170,7 @@ export default function App() {
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <span className="text-lg">{goal.emoji}</span>
-                              <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] truncate">{goal.name}</span>
+                              <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] truncate">{goal.name}</span>
                             </div>
                             <span className="text-[8px] text-[#6D4C41] shrink-0">
                               ₱{goal.savedAmount.toLocaleString()} / ₱{goal.targetAmount.toLocaleString()}
@@ -1190,7 +1190,7 @@ export default function App() {
                     })}
                     <button 
                       onClick={() => setShowAddGoalModal(true)}
-                      className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                      className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-3 border-[#8D6E63] rounded-lg py-2 font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
                     >
                       + add goal
                     </button>
@@ -1203,7 +1203,7 @@ export default function App() {
 
           {activeTab === 'debt' && (
             <div className="p-4 space-y-4">
-              <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4">Debt tracker</h2>
+              <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#D2691E] mb-4">Debt tracker</h2>
 
               {/* Debt Cards Grid */}
               <div className="space-y-3">
@@ -1219,7 +1219,7 @@ export default function App() {
               {/* Add Debt Button */}
               <button
                 onClick={() => setShowAddDebtModal(true)}
-                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 + DEBT
               </button>
@@ -1230,7 +1230,7 @@ export default function App() {
 
           {activeTab === 'profile' && (
             <div className="p-4 space-y-4">
-              <h2 className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-4">PROFILE</h2>
+              <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723] mb-4">PROFILE</h2>
 
               {/* Profile Card */}
               <div className="bg-[#FFF9E6] border-4 border-[#3E2723] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41]">
@@ -1240,14 +1240,14 @@ export default function App() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-['Press_Start_2P'] text-sm text-[#3E2723] truncate max-w-[120px]">{username}</h3>
-                      <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723] shrink-0">lvl. {authState === 'guest' ? '1' : '40'}</span>
+                      <h3 className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723] truncate max-w-[120px]">{username}</h3>
+                      <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shrink-0">lvl. {authState === 'guest' ? '1' : '40'}</span>
                     </div>
                     <p className="text-[9px] text-[#6D4C41] mb-2">Progress towards lvl. {authState === 'guest' ? '2' : '41'}</p>
                     <div className="relative h-4 bg-[#E8D5B7] rounded border-2 border-[#3E2723] overflow-hidden">
                       <div className="absolute inset-y-0 left-0 bg-[#81C784] transition-all" style={{ width: authState === 'guest' ? '0%' : '80%' }} />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="font-['Press_Start_2P'] text-[7px] text-[#3E2723]">{authState === 'guest' ? '0%' : '80%'}</span>
+                        <span className="font-['VCR_OSD_Mono'] text-[7px] text-[#3E2723]">{authState === 'guest' ? '0%' : '80%'}</span>
                       </div>
                     </div>
                   </div>
@@ -1257,8 +1257,8 @@ export default function App() {
               {/* Friends Section */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
                 <div className="bg-[#FFB6C1] px-4 py-2 border-b-4 border-[#8D6E63] flex items-center justify-between">
-                  <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">FRIENDS</h3>
-                  <span className="font-['Press_Start_2P'] text-[8px] text-[#6D4C41]">{friends.length}</span>
+                  <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">FRIENDS</h3>
+                  <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#6D4C41]">{friends.length}</span>
                 </div>
                 <div className="p-4 space-y-3">
 
@@ -1298,7 +1298,7 @@ export default function App() {
                           setFriendSearchResult('found');
                         }
                       }}
-                      className="bg-[#3E2723] hover:bg-[#6D4C41] border-3 border-[#3E2723] rounded-lg px-3 py-2 font-['Press_Start_2P'] text-[8px] text-[#A8D5BA] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                      className="bg-[#3E2723] hover:bg-[#6D4C41] border-3 border-[#3E2723] rounded-lg px-3 py-2 font-['VCR_OSD_Mono'] text-[8px] text-[#A8D5BA] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[1px] active:translate-y-[1px] transition-all"
                     >
                       GO
                     </button>
@@ -1309,7 +1309,7 @@ export default function App() {
                     <div className="bg-[#A8D5BA]/30 border-2 border-[#A8D5BA] rounded-lg px-3 py-2 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-[#FFB6C1] border-2 border-[#3E2723] rounded-lg flex items-center justify-center text-sm">🐷</div>
-                        <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">{friendSearch.trim()}</span>
+                        <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">{friendSearch.trim()}</span>
                       </div>
                       <button
                         onClick={() => {
@@ -1317,17 +1317,17 @@ export default function App() {
                           setFriendSearch('');
                           setFriendSearchResult('idle');
                         }}
-                        className="bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-2 border-[#3E2723] rounded-lg px-2 py-1 font-['Press_Start_2P'] text-[7px] text-[#3E2723] shadow-[2px_2px_0_0_#6D4C41] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                        className="bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-2 border-[#3E2723] rounded-lg px-2 py-1 font-['VCR_OSD_Mono'] text-[7px] text-[#3E2723] shadow-[2px_2px_0_0_#6D4C41] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] transition-all"
                       >
                         + add
                       </button>
                     </div>
                   )}
                   {friendSearchResult === 'already_added' && (
-                    <p className="text-[8px] text-[#D2691E] text-center font-['Press_Start_2P']">already a friend!</p>
+                    <p className="text-[8px] text-[#D2691E] text-center font-['VCR_OSD_Mono']">already a friend!</p>
                   )}
                   {friendSearchResult === 'not_found' && (
-                    <p className="text-[8px] text-[#D32F2F] text-center font-['Press_Start_2P']">user not found</p>
+                    <p className="text-[8px] text-[#D32F2F] text-center font-['VCR_OSD_Mono']">user not found</p>
                   )}
 
                   {/* Friends List */}
@@ -1339,7 +1339,7 @@ export default function App() {
                         <div key={i} className="flex items-center justify-between bg-[#FFF9E6] border-2 border-[#E8D5B7] rounded-lg px-3 py-2">
                           <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-[#FFB6C1] border-2 border-[#3E2723] rounded-lg flex items-center justify-center text-sm">🐷</div>
-                            <span className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">{friend}</span>
+                            <span className="font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723]">{friend}</span>
                           </div>
                           <button
                             onClick={() => setFriends(prev => prev.filter((_, idx) => idx !== i))}
@@ -1358,7 +1358,7 @@ export default function App() {
               {/* Settings Section */}
               <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
                 <div className="bg-[#FFD966] px-4 py-2 border-b-4 border-[#8D6E63]">
-                  <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">SETTINGS</h3>
+                  <h3 className="font-['VCR_OSD_Mono'] text-[9px] text-[#3E2723]">SETTINGS</h3>
                 </div>
 
                 <div className="divide-y-2 divide-[#E8D5B7]">
@@ -1430,7 +1430,7 @@ export default function App() {
                 }`}
               >
                 <Icon size={18} />
-                <span className="text-[7px] font-['Press_Start_2P']">{label}</span>
+                <span className="text-[7px] font-['VCR_OSD_Mono']">{label}</span>
               </button>
             ))}
           </div>
@@ -1566,11 +1566,11 @@ export default function App() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60" onClick={() => setShowBudgetModal(false)} />
           <div className="relative bg-[#FFF9E6] border-4 border-[#3E2723] rounded-xl shadow-[8px_8px_0_0_#6D4C41] w-full max-w-sm p-6 space-y-4">
-            <h2 className="font-['Press_Start_2P'] text-sm text-[#3E2723] text-center">SET DAILY BUDGET</h2>
+            <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723] text-center">SET DAILY BUDGET</h2>
             <p className="text-[9px] text-[#6D4C41] text-center">Your pig's mood depends on staying within budget 🐷</p>
 
             <div className="bg-white border-3 border-[#8D6E63] rounded-lg px-4 py-3 flex items-center gap-2">
-              <span className="font-['Press_Start_2P'] text-sm text-[#3E2723]">₱</span>
+              <span className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723]">₱</span>
               <input
                 type="number"
                 min="1"
@@ -1586,7 +1586,7 @@ export default function App() {
                   }
                 }}
                 autoFocus
-                className="flex-1 bg-transparent font-['Press_Start_2P'] text-lg text-[#3E2723] outline-none w-full"
+                className="flex-1 bg-transparent font-['VCR_OSD_Mono'] text-lg text-[#3E2723] outline-none w-full"
                 placeholder="600"
               />
             </div>
@@ -1594,7 +1594,7 @@ export default function App() {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowBudgetModal(false)}
-                className="flex-1 bg-[#E8D5B7] hover:bg-[#D4B896] border-3 border-[#8D6E63] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="flex-1 bg-[#E8D5B7] hover:bg-[#D4B896] border-3 border-[#8D6E63] rounded-lg py-2 font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 cancel
               </button>
@@ -1606,7 +1606,7 @@ export default function App() {
                     setShowBudgetModal(false);
                   }
                 }}
-                className="flex-1 bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#3E2723] rounded-lg py-2 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="flex-1 bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-3 border-[#3E2723] rounded-lg py-2 font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shadow-[3px_3px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 save ✓
               </button>

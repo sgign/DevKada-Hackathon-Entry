@@ -42,7 +42,7 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
           <div className="w-24 h-24 border-4 border-[#3E2723] rounded-2xl flex items-center justify-center mb-4 shadow-[4px_4px_0_0_#6D4C41] overflow-hidden bg-white">
             <img src={logo} alt="Chicha" className="w-full h-full object-contain scale-[2.2]" style={{ imageRendering: 'pixelated' }} />
           </div>
-          <h1 className="font-['Press_Start_2P'] text-xl text-[#3E2723] text-center leading-relaxed">
+          <h1 className="font-['VCR_OSD_Mono'] text-xl text-[#3E2723] text-center leading-relaxed">
             CHICHA
           </h1>
         </div>
@@ -51,20 +51,20 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
           <div className="w-full space-y-4">
             <button 
               onClick={() => setView('login')}
-              className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-xl py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-xl py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
             >
               LOG IN
             </button>
             <button 
               onClick={() => setView('signup')}
-              className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-xl py-4 font-['Press_Start_2P'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              className="w-full bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-xl py-4 font-['VCR_OSD_Mono'] text-xs text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
             >
               CREATE PROFILE
             </button>
             <div className="pt-4">
               <button 
                 onClick={onGuest}
-                className="w-full bg-white hover:bg-gray-50 border-4 border-[#3E2723] rounded-xl py-4 font-['Press_Start_2P'] text-xs text-[#6D4C41] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="w-full bg-white hover:bg-gray-50 border-4 border-[#3E2723] rounded-xl py-4 font-['VCR_OSD_Mono'] text-xs text-[#6D4C41] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 GUEST MODE
               </button>
@@ -75,16 +75,16 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
         {(view === 'login' || view === 'signup') && (
           <form onSubmit={handleLoginSubmit} className="w-full space-y-4">
             <div className="bg-white border-4 border-[#3E2723] rounded-xl p-4 shadow-[4px_4px_0_0_#6D4C41]">
-              <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4 text-center">
+              <h2 className="font-['VCR_OSD_Mono'] text-sm text-[#D2691E] mb-4 text-center">
                 {view === 'login' ? 'WELCOME BACK' : 'NEW PROFILE'}
               </h2>
               {errorMsg && (
-                <p className="font-['Press_Start_2P'] text-[8px] text-red-500 mb-4 text-center">{errorMsg}</p>
+                <p className="font-['VCR_OSD_Mono'] text-[8px] text-red-500 mb-4 text-center">{errorMsg}</p>
               )}
               
               <div className="space-y-4">
                 <div>
-                  <label className="block font-['Press_Start_2P'] text-[8px] text-[#6D4C41] mb-2">USERNAME</label>
+                  <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#6D4C41] mb-2">USERNAME</label>
                   <input 
                     type="text" 
                     value={username}
@@ -94,7 +94,7 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
                   />
                 </div>
                 <div>
-                  <label className="block font-['Press_Start_2P'] text-[8px] text-[#6D4C41] mb-2">PASSWORD</label>
+                  <label className="block font-['VCR_OSD_Mono'] text-[8px] text-[#6D4C41] mb-2">PASSWORD</label>
                   <input 
                     type="password" 
                     value={password}
@@ -110,14 +110,14 @@ export function LoginPage({ onLogin, onGuest }: LoginPageProps) {
               <button 
                 type="button"
                 onClick={() => setView('menu')}
-                className="flex-1 bg-white hover:bg-gray-50 border-4 border-[#3E2723] rounded-xl py-3 font-['Press_Start_2P'] text-[10px] text-[#6D4C41] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="flex-1 bg-white hover:bg-gray-50 border-4 border-[#3E2723] rounded-xl py-3 font-['VCR_OSD_Mono'] text-[10px] text-[#6D4C41] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 BACK
               </button>
               <button 
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:opacity-50 border-4 border-[#3E2723] rounded-xl py-3 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 disabled:opacity-50 border-4 border-[#3E2723] rounded-xl py-3 font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 {loading ? 'WAIT...' : (view === 'login' ? 'ENTER' : 'CREATE')}
               </button>

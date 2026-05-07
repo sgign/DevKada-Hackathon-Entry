@@ -12,14 +12,14 @@ export function StreakCard({ streak }: StreakCardProps) {
         <div className="flex items-center gap-3">
           <span className="text-4xl">🔥</span>
           <div>
-            <p className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
+            <p className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723]">
               {streak} DAY STREAK
             </p>
             <p className="text-[8px] text-[#6D4C41] mt-1">Keep it up!</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="font-['Press_Start_2P'] text-[8px] text-[#D2691E]">
+          <p className="font-['VCR_OSD_Mono'] text-[8px] text-[#D2691E]">
             🔥🔥🔥
           </p>
         </div>

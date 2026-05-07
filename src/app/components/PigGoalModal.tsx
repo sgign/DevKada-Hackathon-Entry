@@ -29,7 +29,7 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }:
       <div className="w-full max-w-sm bg-[#F5DEB3] border-4 border-[#8D6E63] rounded-2xl shadow-[8px_8px_0_0_#6D4C41]">
         {/* Header */}
         <div className="bg-[#FFB6C1] px-6 py-4 border-b-4 border-[#8D6E63] rounded-t-xl flex items-center justify-between">
-          <h2 className="font-['Press_Start_2P'] text-xs text-[#3E2723]">
+          <h2 className="font-['VCR_OSD_Mono'] text-xs text-[#3E2723]">
             PIG #{pigNumber}
           </h2>
           <button
@@ -45,7 +45,7 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }:
           {/* Pig Avatar */}
           <div className="text-center">
             <div className="text-6xl mb-2">🐷</div>
-            <p className="font-['Press_Start_2P'] text-[10px] text-[#6D4C41]">
+            <p className="font-['VCR_OSD_Mono'] text-[10px] text-[#6D4C41]">
               This pig represents
             </p>
           </div>
@@ -54,7 +54,7 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }:
           <div className="bg-white border-4 border-[#8D6E63] rounded-lg p-4 shadow-[4px_4px_0_0_#6D4C41] space-y-3">
             <div className="text-center">
               <div className="text-4xl mb-2">{goal.emoji}</div>
-              <h3 className="font-['Press_Start_2P'] text-sm text-[#3E2723] mb-2">
+              <h3 className="font-['VCR_OSD_Mono'] text-sm text-[#3E2723] mb-2">
                 {goal.name}
               </h3>
             </div>
@@ -62,25 +62,25 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }:
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-[9px] text-[#6D4C41]">Target:</span>
-                <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+                <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
                   ₱{goal.targetAmount.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[9px] text-[#6D4C41]">Saved:</span>
-                <span className="font-['Press_Start_2P'] text-[10px] text-[#81C784]">
+                <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#81C784]">
                   ₱{goal.savedAmount.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[9px] text-[#6D4C41]">Remaining:</span>
-                <span className="font-['Press_Start_2P'] text-[10px] text-[#D2691E]">
+                <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#D2691E]">
                   ₱{remaining.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[9px] text-[#6D4C41]">Deadline:</span>
-                <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
+                <span className="font-['VCR_OSD_Mono'] text-[10px] text-[#3E2723]">
                   {goal.deadline}
                 </span>
               </div>
@@ -104,13 +104,13 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }:
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 bg-[#E8D5B7] hover:bg-[#D4B896] border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              className="flex-1 bg-[#E8D5B7] hover:bg-[#D4B896] border-4 border-[#8D6E63] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
             >
               CLOSE
             </button>
             <button
               onClick={onAddMoney}
-              className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-1"
+              className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['VCR_OSD_Mono'] text-[8px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-1"
             >
               <span>💰</span> FEED PIG
             </button>
@@ -118,7 +118,7 @@ export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney, onDelete }:
 
           <button
             onClick={handleDelete}
-            className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] border-4 border-[#3E2723] rounded-lg py-2 font-['Press_Start_2P'] text-[7px] text-white shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] border-4 border-[#3E2723] rounded-lg py-2 font-['VCR_OSD_Mono'] text-[7px] text-white shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
           >
             DELETE GOAL
           </button>
