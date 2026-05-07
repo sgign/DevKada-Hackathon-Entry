@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Home, PlusCircle, Users, Trophy, User, Receipt } from 'lucide-react';
+import { Home, PlusCircle, Users, User, Receipt } from 'lucide-react';
 import { PigDisplay } from './components/PigDisplay';
 import { BudgetBars } from './components/BudgetBars';
 import { QuickActions } from './components/QuickActions';
@@ -7,7 +7,6 @@ import { RecentTransactions } from './components/RecentTransactions';
 import { StreakCard } from './components/StreakCard';
 import { ExpenseModal } from './components/ExpenseModal';
 import { IncomeModal } from './components/IncomeModal';
-import { Leaderboard } from './components/Leaderboard';
 import { DebtCard } from './components/DebtCard';
 import { DebtDetailModal } from './components/DebtDetailModal';
 import { DebtPaymentModal } from './components/DebtPaymentModal';
@@ -1215,12 +1214,7 @@ export default function App() {
             </div>
           )}
 
-          {activeTab === 'board' && (
-            <div className="p-4">
-              <h2 className="font-['Press_Start_2P'] text-sm text-[#D2691E] mb-4">Leaderboard</h2>
-              <Leaderboard />
-            </div>
-          )}
+
 
           {activeTab === 'profile' && (
             <div className="p-4 space-y-4">
@@ -1414,7 +1408,6 @@ export default function App() {
               { id: 'log', icon: PlusCircle, label: 'Log' },
               { id: 'debt', icon: Receipt, label: 'Debt' },
               { id: 'farm', icon: Users, label: 'Farm' },
-              { id: 'board', icon: Trophy, label: 'Board' },
               { id: 'profile', icon: User, label: 'Profile' }
             ].map(({ id, icon: Icon, label }) => (
               <button
