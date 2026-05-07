@@ -2,43 +2,41 @@
 
 **CHICHA** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience and AI-driven insights, CHICHA helps users build better spending habits and reach their financial goals.
 
-**🚀 Live Demo: [https://debugchewycookie-chicha.vercel.app/](https://debugchewycookie-chicha.vercel.app/)**
+**Live Demo: [https://debugchewycookie-chicha.vercel.app/](https://debugchewycookie-chicha.vercel.app/)**
 
 ---
 
-## ✨ Features
+## Features
 
-### 🎮 Gamified Budgeting & Habit Building
+### Gamified Budgeting & Habit Building
 Your financial health is directly tied to your **Chicha**—your virtual piggy bank pet. The app is built to transform the chore of budgeting into a rewarding game:
 - **Emotional Feedback**: Stay within your budget to keep your Chicha happy and healthy. Overspending makes your pig grumpy, providing immediate emotional feedback on your spending habits.
 - **Positive Reinforcement**: Earn coins and maintain streaks by logging expenses daily, turning consistency into a fun challenge.
 
-### 🤖 AI-Powered Financial Intelligence
+### AI-Powered Financial Intelligence
 CHICHA uses advanced AI to simplify your financial life:
 - **AI Chat Bar**: Powered by Groq, simply tell Chicha what you spent (e.g., "Spent 200 on lunch at McDo"), and it will automatically categorize and log the transaction. No more tedious manual entry.
 - **Personalized Financial Advice**: Get real-time, actionable advice from Chicha. Based on your spending patterns, Chicha will offer tips on how to save more and spend smarter.
 
-### 🚜 The Farm & Savings Goals
+### The Farm & Savings Goals
 Every savings goal you create is represented by a pig in your virtual farm. Watch your farm grow as you set new targets and save more money.
 - **Collaborative Farms**: Team up with friends or family to reach shared savings goals.
 - **Progress Tracking**: Visual progress bars show how close you are to completing each goal.
 
-### 📸 Smart Logging Tools
+### Smart Logging Tools
 - **Receipt Scanner**: Use built-in OCR to scan physical receipts and log expenses in seconds.
 - **Comprehensive Wallet Management**: Track multiple accounts including Cash, GCash, Maya, and various bank accounts (BPI, BDO, Landbank).
 
-### 💳 Liabilities & Recurring Costs
+### Liabilities & Recurring Costs
 - **Debt Tracker**: Manage your liabilities with a dedicated tracker, complete with payment history and completion milestones.
 - **Subscription Manager**: Never forget a recurring payment. Keep track of all your active subscriptions in one place.
 
 ---
 
-## 🛠️ How It Works
-
-CHICHA is built with a modern web stack to ensure a smooth, responsive, and secure experience:
+## How It Works
 
 - **Frontend**: [React](https://reactjs.org/) with [Vite](https://vitejs.dev/)
-- **AI Engine**: [Groq SDK](https://groq.com/) for lightning-fast natural language processing and financial advice.
+- **AI Engine**: [Groq SDK](https://groq.com/) 
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Backend & Auth**: [Supabase](https://supabase.com/) 
 - **OCR**: [Tesseract.js](https://tesseract.projectnaptha.com/) 
@@ -46,7 +44,7 @@ CHICHA is built with a modern web stack to ensure a smooth, responsive, and secu
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v16 or higher recommended)
@@ -80,11 +78,6 @@ CHICHA is built with a modern web stack to ensure a smooth, responsive, and secu
 
 5. **Open your browser**:
    Navigate to [http://localhost:5173](http://localhost:5173) to see the app in action!
-
----
-
-## 🎨 Design
-The original design for this project can be found on [Figma](https://www.figma.com/design/b9jBqtd9Z9WXAhxJ1Gqu2D/Oinky-Bank).
 
 ---
 
