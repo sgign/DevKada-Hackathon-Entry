@@ -22,6 +22,7 @@ import { CalendarPage } from './components/CalendarPage';
 import { SubscriptionsSection } from './components/SubscriptionsSection';
 import { AddSubscriptionModal } from './components/AddSubscriptionModal';
 import { LoginPage } from './components/LoginPage';
+import { MiniLeaderboard } from './components/MiniLeaderboard';
 import { supabase } from '../lib/supabase';
 import pigAvatar from '../imports/Neutral-1.png';
 import farmBackground from '../imports/Screenshot_2026-05-06_at_15.44.08.png';
@@ -84,7 +85,32 @@ interface Subscription {
   lastBilledDate?: string; // ISO date of last billing
 }
 
-const ZERO_FARMS: Farm[] = [{ id: 1, name: "My Farm", type: 'solo', numPigs: 0, pigGoals: [] }];
+const ZERO_FARMS: Farm[] = [
+  { id: 1, name: "My Farm", type: 'solo', numPigs: 0, pigGoals: [] },
+  {
+    id: 2,
+    name: "Family Farm",
+    type: 'collaborative',
+    numPigs: 3,
+    collaborators: ['Mom', 'Dad', 'Sister'],
+    pigGoals: [
+      { name: 'Family Vacation', emoji: '🏖️', targetAmount: 80000, savedAmount: 0, deadline: '03/15/27' },
+      { name: 'Home Renovation', emoji: '🏠', targetAmount: 300000, savedAmount: 0, deadline: '06/30/27' },
+      { name: 'New Car', emoji: '🚗', targetAmount: 500000, savedAmount: 0, deadline: '12/31/27' }
+    ]
+  },
+  {
+    id: 3,
+    name: "Friends Farm",
+    type: 'collaborative',
+    numPigs: 2,
+    collaborators: ['Ana', 'Ben', 'Clara'],
+    pigGoals: [
+      { name: 'Group Trip', emoji: '🎒', targetAmount: 100000, savedAmount: 0, deadline: '07/15/27' },
+      { name: 'Concert Tickets', emoji: '🎵', targetAmount: 30000, savedAmount: 0, deadline: '05/20/26' }
+    ]
+  }
+];
 const ZERO_WALLET_BALANCES: Record<string, number> = { 'Cash': 0, 'GCash': 0 };
 const ZERO_TRANSACTIONS: Transaction[] = [];
 const ZERO_DEBTS: Debt[] = [];
@@ -958,16 +984,16 @@ export default function App() {
                 </div>
 
                 {/* Farm Info */}
-                <div>
+                <div className="flex flex-row items-stretch justify-center gap-3 flex-wrap mt-2">
                   {selectedFarm.type === 'collaborative' && selectedFarm.collaborators && (
-                    <div className="inline-block bg-[#A8D5BA] border-3 border-[#3E2723] rounded-lg px-3 py-2 mb-2 shadow-[3px_3px_0_0_#6D4C41]">
+                    <div className="bg-[#A8D5BA] border-3 border-[#3E2723] rounded-lg px-3 py-2 shadow-[3px_3px_0_0_#6D4C41] flex flex-col justify-center text-center">
                       <p className="text-[8px] text-[#6D4C41] mb-1">Collaborators:</p>
                       <p className="font-['Press_Start_2P'] text-[8px] text-[#3E2723]">
                         {selectedFarm.collaborators.join(', ')}
                       </p>
                     </div>
                   )}
-                  <div className="inline-block bg-[#FFD966] border-3 border-[#3E2723] rounded-lg px-4 py-2 shadow-[3px_3px_0_0_#6D4C41]">
+                  <div className="bg-[#FFD966] border-3 border-[#3E2723] rounded-lg px-4 py-2 shadow-[3px_3px_0_0_#6D4C41] flex items-center justify-center">
                     <span className="font-['Press_Start_2P'] text-[10px] text-[#3E2723]">
                       🐷 {selectedFarm.numPigs} Pig{selectedFarm.numPigs !== 1 ? 's' : ''}
                     </span>
@@ -1030,9 +1056,11 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Goals and Savings List */}
+              {/* Goals, Savings, and Mini Leaderboard List */}
               <div className="px-4 pb-24 mt-4 relative z-10">
-                <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41]">
+                <MiniLeaderboard farm={selectedFarm} />
+                
+                <div className="bg-white border-4 border-[#3E2723] rounded-lg overflow-hidden shadow-[4px_4px_0_0_#6D4C41] mt-4">
                   <div className="bg-[#A8D5BA] px-4 py-2 border-b-4 border-[#8D6E63]">
                     <h3 className="font-['Press_Start_2P'] text-[9px] text-[#3E2723]">GOALS & SAVINGS</h3>
                   </div>
