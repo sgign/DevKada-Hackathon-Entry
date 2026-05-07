@@ -25,22 +25,21 @@ interface ScannedResult {
 // Lines that should NOT be treated as purchasable items
 const SKIP_KEYWORDS = /total|subtotal|sub-total|vat|tax|discount|change|your change|tendered|cash tendered|cash|credit|payment|receipt|invoice|balance|due|amount|paid|thankyou|thank you|welcome|date|time|cashier|#|tel|address|www\.|\.com|php|official|qty|quantity|pcs|unit/i;
 
-function parseReceiptText(text: string): ScannedResult {
+// -----------------------------------------------------------------------
+// Regex-based fallback parser (used if Gemini API is unavailable)
+// -----------------------------------------------------------------------
+function regexParseReceiptText(text: string): ScannedResult {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-  // --- Helpers ---
   const extractNumber = (str: string): number => {
     const m = str.match(/(\d{1,3}(?:[,\s]\d{3})*(?:\.\d{1,2})?|\d+\.\d{1,2})/);
     if (!m) return 0;
     return parseFloat(m[1].replace(/[,\s]/g, ''));
   };
 
-  // --- Total Detection (multi-pass, same as before) ---
   let total = 0;
   const totalKeywords = ['grand total', 'total amount', 'amount due', 'balance due',
     'total due', 'total:', 'to pay', 'net total', 'amount payable'];
-
-  // Pass 1: labeled total lines (bottom-up)
   for (const line of [...lines].reverse()) {
     const lower = line.toLowerCase();
     if (totalKeywords.some(kw => lower.includes(kw))) {
@@ -48,27 +47,20 @@ function parseReceiptText(text: string): ScannedResult {
       if (n > 0) { total = n; break; }
     }
   }
-  // Pass 2: any line with "total" in bottom half
   if (total === 0) {
     for (const line of [...lines.slice(-Math.ceil(lines.length / 2))].reverse()) {
-      if (/total/i.test(line)) {
-        const n = extractNumber(line);
-        if (n > 0) { total = n; break; }
-      }
+      if (/total/i.test(line)) { const n = extractNumber(line); if (n > 0) { total = n; break; } }
     }
   }
-  // Pass 3: currency-formatted numbers (X,XXX.XX) in bottom third
   if (total === 0) {
     const nums: number[] = [];
-    for (const line of lines.slice(-Math.ceil(lines.length / 3))) {
+    for (const line of lines.slice(-Math.ceil(lines.length / 3)))
       for (const m of line.matchAll(/\b(\d{1,3}(?:,\d{3})*\.\d{2})\b/g)) {
         const n = parseFloat(m[1].replace(/,/g, ''));
         if (n > 10 && n < 500000 && !(n >= 2000 && n <= 2100)) nums.push(n);
       }
-    }
     if (nums.length) total = nums[nums.length - 1];
   }
-  // Pass 4: ₱ or PHP prefixed (bottom-up)
   if (total === 0) {
     for (const m of [...text.matchAll(/[₱$][\s]?(\d[\d,]*\.?\d*)/g)].reverse()) {
       const n = parseFloat(m[1].replace(/,/g, ''));
@@ -76,71 +68,142 @@ function parseReceiptText(text: string): ScannedResult {
     }
   }
 
-  // --- Line Item Detection ---
-  // A line item typically has: some text on the left, a price on the right.
-  // Pattern: "Item Name    89.00"  or  "Burger x2   178"
   const items: LineItem[] = [];
   let idCounter = 0;
-
   for (const line of lines) {
-    // Skip header/footer noise lines
-    if (SKIP_KEYWORDS.test(line)) continue;
-    // Must contain at least one letter (item name)
-    if (!/[a-zA-Z]/.test(line)) continue;
-
-    // Try to extract a price from this line
-    // Price is typically at the end of the line
+    if (SKIP_KEYWORDS.test(line) || !/[a-zA-Z]/.test(line)) continue;
     const priceMatch = line.match(/(\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?|\d+\.\d{1,2})\s*$/);
     if (!priceMatch) continue;
-
     const price = parseFloat(priceMatch[1].replace(/,/g, ''));
-    // Filter: price must be realistic (> 0, not a year, not a huge number)
     if (price <= 0 || price >= 100000 || (price >= 2000 && price <= 2100)) continue;
-
-    // Item name is everything before the price
     const name = line.slice(0, line.lastIndexOf(priceMatch[1])).trim()
-      .replace(/[x×]\s*\d+\s*$/i, '')   // remove "x2" quantity suffixes
-      .replace(/\s{2,}/g, ' ')           // collapse whitespace
-      .trim();
-
+      .replace(/[x×]\s*\d+\s*$/i, '').replace(/\s{2,}/g, ' ').trim();
     if (name.length < 2) continue;
-
     items.push({ id: idCounter++, name, price });
   }
 
-  // --- Category Detection ---
   const categoryMap: Record<string, string> = {
     food: '🍔', restaurant: '🍔', jollibee: '🍔', mcdo: '🍔', mcdonald: '🍔',
-    kfc: '🍔', pizza: '🍕', burger: '🍔', chowking: '🍔', mang: '🍔',
+    kfc: '🍔', pizza: '🍕', burger: '🍔', chowking: '🍔',
     cafe: '☕', coffee: '☕', starbucks: '☕',
     grocery: '🛒', supermarket: '🛒', sm: '🛒', market: '🛒', puregold: '🛒', robinsons: '🛒',
-    pharmacy: '💊', drugstore: '💊', mercury: '💊', watsons: '💊', rose: '💊',
+    pharmacy: '💊', drugstore: '💊', mercury: '💊', watsons: '💊',
     hospital: '🏥', clinic: '🏥',
     transport: '🚗', grab: '🚗', taxi: '🚗', gas: '⛽', petron: '⛽', shell: '⛽', caltex: '⛽',
-    electricity: '💡', meralco: '💡', water: '💧', maynilad: '💧', manila: '💧',
+    electricity: '💡', meralco: '💡', water: '💧', maynilad: '💧',
     internet: '📶', globe: '📶', smart: '📶', pldt: '📶',
-    shop: '🛍️', mall: '🛍️', clothing: '👕', salon: '✂️',
-    hotel: '🏨', inn: '🏨',
+    shop: '🛍️', mall: '🛍️', clothing: '👕', salon: '✂️', hotel: '🏨',
   };
-
-  let category = 'Receipt';
-  let categoryEmoji = '🧾';
+  let category = 'Receipt', categoryEmoji = '🧾';
   const textLower = text.toLowerCase();
   for (const [kw, emoji] of Object.entries(categoryMap)) {
-    if (textLower.includes(kw)) {
-      category = kw.charAt(0).toUpperCase() + kw.slice(1);
-      categoryEmoji = emoji;
-      break;
-    }
+    if (textLower.includes(kw)) { category = kw.charAt(0).toUpperCase() + kw.slice(1); categoryEmoji = emoji; break; }
   }
 
-  // --- Store Name ---
-  const storeName =
-    lines.find(l => /[a-zA-Z]/.test(l) && l.length > 2 && !SKIP_KEYWORDS.test(l))
-    || 'Receipt';
-
+  const storeName = lines.find(l => /[a-zA-Z]/.test(l) && l.length > 2 && !SKIP_KEYWORDS.test(l)) || 'Receipt';
   return { storeName, total, items, category, categoryEmoji, rawText: text };
 }
+
+// -----------------------------------------------------------------------
+// Gemini-powered parser with strict exclusionary prompt
+// -----------------------------------------------------------------------
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
+
+async function geminiParseReceiptText(ocrText: string): Promise<ScannedResult> {
+  if (!GEMINI_API_KEY) throw new Error('No Gemini API key');
+
+  const systemPrompt = `You are an expert financial data extraction parser. I will provide you with raw, messy OCR text from a receipt.
+
+Your Rules:
+1. Extract ONLY the purchased line items and their specific prices.
+2. IGNORE the subtotal, total, tax, VAT, and change amounts.
+3. IGNORE dates, times, phone numbers, store numbers, barcodes, zip codes, and tax IDs.
+4. IGNORE cash tendered, change given, and any payment method lines.
+5. If an item has a quantity (e.g., "2x Coffee"), multiply the price if needed, or just extract the final price for that line.
+6. Also extract the store/restaurant name (first meaningful text line).
+7. Also extract the grand total (the final amount the customer paid, NOT the change).
+
+Return ONLY a raw JSON object — no markdown, no explanation — in this exact shape:
+{
+  "storeName": "string",
+  "total": number,
+  "items": [
+    { "name": "string", "price": number }
+  ]
+}`;
+
+  const body = {
+    contents: [
+      {
+        parts: [
+          { text: systemPrompt },
+          { text: `\n\nOCR TEXT:\n${ocrText}` }
+        ]
+      }
+    ],
+    generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+  };
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+  );
+
+  if (!res.ok) throw new Error(`Gemini API error: ${res.status}`);
+
+  const data = await res.json();
+  const rawContent: string = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+
+  // Strip markdown code fences if Gemini wraps it
+  const jsonStr = rawContent.replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
+  const parsed = JSON.parse(jsonStr);
+
+  // Map to our internal types
+  const items: LineItem[] = (parsed.items ?? []).map((item: { name: string; price: number }, i: number) => ({
+    id: i,
+    name: String(item.name),
+    price: Number(item.price) || 0,
+  }));
+
+  // Detect category from store name + full text
+  const categoryMap: Record<string, string> = {
+    jollibee: '🍔', mcdo: '🍔', mcdonald: '🍔', kfc: '🍔', pizza: '🍕', burger: '🍔',
+    chowking: '🍔', restaurant: '🍔', food: '🍔', cafe: '☕', coffee: '☕', starbucks: '☕',
+    grocery: '🛒', supermarket: '🛒', market: '🛒', puregold: '🛒', robinsons: '🛒', sm: '🛒',
+    pharmacy: '💊', drugstore: '💊', mercury: '💊', watsons: '💊',
+    hospital: '🏥', clinic: '🏥', transport: '🚗', grab: '🚗', gas: '⛽', petron: '⛽',
+    shell: '⛽', electricity: '💡', meralco: '💡', water: '💧', maynilad: '💧',
+    internet: '📶', globe: '📶', smart: '📶', pldt: '📶',
+    shop: '🛍️', mall: '🛍️', hotel: '🏨',
+  };
+  let category = 'Receipt', categoryEmoji = '🧾';
+  const combined = (parsed.storeName + ' ' + ocrText).toLowerCase();
+  for (const [kw, emoji] of Object.entries(categoryMap)) {
+    if (combined.includes(kw)) { category = kw.charAt(0).toUpperCase() + kw.slice(1); categoryEmoji = emoji; break; }
+  }
+
+  return {
+    storeName: String(parsed.storeName || 'Receipt'),
+    total: Number(parsed.total) || 0,
+    items,
+    category,
+    categoryEmoji,
+    rawText: ocrText,
+  };
+}
+
+// -----------------------------------------------------------------------
+// Main parser: tries Gemini first, falls back to regex
+// -----------------------------------------------------------------------
+async function parseReceiptText(text: string): Promise<ScannedResult> {
+  try {
+    return await geminiParseReceiptText(text);
+  } catch (err) {
+    console.warn('Gemini parsing failed, using regex fallback:', err);
+    return regexParseReceiptText(text);
+  }
+}
+
 
 export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerModalProps) {
   const [step, setStep] = useState<'camera' | 'scanning' | 'review' | 'done' | 'error'>('camera');
@@ -209,8 +272,16 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
         logger: (m) => {
           if (m.status === 'recognizing text') setOcrProgress(Math.round(m.progress * 100));
         },
-      });
-      const parsed = parseReceiptText(result.data.text);
+        // PSM 6: Treat image as a single uniform block of text.
+        // This preserves line-by-line layout so item names and prices
+        // stay on the same horizontal plane.
+        tessedit_pageseg_mode: '6',
+      } as Parameters<typeof Tesseract.recognize>[2]);
+      const ocrText = result.data.text;
+      setOcrProgress(100);
+
+      // Now send OCR text to Gemini (or regex fallback) for smart parsing
+      const parsed = await parseReceiptText(ocrText);
       setScannedResult(parsed);
       setItems(parsed.items.length > 0 ? parsed.items : []);
       setStoreName(parsed.storeName);
