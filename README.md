@@ -2,6 +2,8 @@
 
 **Chicha** is a gamified personal finance application designed to make budgeting and saving fun, interactive, and rewarding. By combining traditional financial tracking with a virtual pet experience, Chicha helps users build better spending habits and reach their financial goals.
 
+**🚀 Live Demo: [https://debugchewycookie-chicha.vercel.app/](https://debugchewycookie-chicha.vercel.app/)**
+
 ---
 
 ## Features
