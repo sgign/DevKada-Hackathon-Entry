@@ -1,6 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
 import { X, ScanLine, CheckCircle2, AlertCircle, Trash2, Plus } from 'lucide-react';
 import Tesseract from 'tesseract.js';
+import ReactCrop, { type Crop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 interface ReceiptScannerModalProps {
   onClose: () => void;
@@ -211,7 +213,10 @@ async function parseReceiptText(text: string): Promise<ScannedResult> {
 
 
 export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerModalProps) {
-  const [step, setStep] = useState<'camera' | 'scanning' | 'review' | 'done' | 'error'>('camera');
+  const [step, setStep] = useState<'camera' | 'crop' | 'scanning' | 'review' | 'done' | 'error'>('camera');
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Crop>();
+  const imageRef = useRef<HTMLImageElement>(null);
   const [ocrProgress, setOcrProgress] = useState(0);
   const [scannedResult, setScannedResult] = useState<ScannedResult | null>(null);
   const [items, setItems] = useState<LineItem[]>([]);
@@ -268,6 +273,34 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
       // alpha (data[i+3]) unchanged
     }
     ctx.putImageData(imageData, 0, 0);
+
+    setCapturedImage(canvas.toDataURL('image/jpeg'));
+    setStep('crop');
+  };
+
+  const processImage = async () => {
+    if (!capturedImage || !imageRef.current) return;
+    
+    const canvas = document.createElement('canvas');
+    const image = imageRef.current;
+    
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    
+    const cropX = crop?.width ? crop.x * scaleX : 0;
+    const cropY = crop?.height ? crop.y * scaleY : 0;
+    const cropWidth = crop?.width ? crop.width * scaleX : image.naturalWidth;
+    const cropHeight = crop?.height ? crop.height * scaleY : image.naturalHeight;
+    
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
+    const ctx = canvas.getContext('2d')!;
+    
+    ctx.drawImage(
+      image,
+      cropX, cropY, cropWidth, cropHeight,
+      0, 0, cropWidth, cropHeight
+    );
 
     setStep('scanning');
     setOcrProgress(0);
@@ -354,6 +387,37 @@ export function ReceiptScannerModal({ onClose, onScanComplete }: ReceiptScannerM
             <button onClick={handleCapture} className="w-20 h-20 bg-white rounded-full border-8 border-gray-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex items-center justify-center">
               <div className="w-14 h-14 rounded-full bg-white border-2 border-gray-300" />
             </button>
+          </div>
+        )}
+
+        {/* CROP */}
+        {step === 'crop' && capturedImage && (
+          <div className="w-full flex flex-col items-center gap-6">
+            <p className="font-['Press_Start_2P'] text-[10px] text-[#FFD966] text-center">CROP RECEIPT</p>
+            <div className="w-full bg-black rounded-xl overflow-hidden border-4 border-[#8D6E63]">
+              <ReactCrop crop={crop} onChange={c => setCrop(c)}>
+                <img 
+                  ref={imageRef} 
+                  src={capturedImage} 
+                  alt="Captured receipt" 
+                  className="w-full h-auto max-h-[60vh] object-contain"
+                />
+              </ReactCrop>
+            </div>
+            <div className="flex gap-4 w-full">
+              <button 
+                onClick={() => { setStep('camera'); setCapturedImage(null); }} 
+                className="flex-1 bg-gray-500 hover:bg-gray-400 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-white shadow-[4px_4px_0_0_#6D4C41]"
+              >
+                RETAKE
+              </button>
+              <button 
+                onClick={processImage} 
+                className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41]"
+              >
+                CONFIRM
+              </button>
+            </div>
           </div>
         )}
 
