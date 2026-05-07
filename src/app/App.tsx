@@ -885,8 +885,13 @@ export default function App() {
                 state={pigState} 
                 dailyBudget={{ spent: monthlyStats.totalSpent, total: budget.daily.total }} 
                 overBudgetDays={overBudgetDays}
-              />
-
+              />              {/* Daily Budget Button */}
+              <button
+                onClick={() => { setBudgetInput(String(budget.daily.total)); setShowBudgetModal(true); }}
+                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-2"
+              >
+                <span>📊</span> daily budget: ₱{budget.daily.total.toLocaleString()}
+              </button>
 
 
               {/* Wallet Cards Grid */}
@@ -918,13 +923,6 @@ export default function App() {
                 + add account
               </button>
 
-              {/* Daily Budget Button */}
-              <button
-                onClick={() => { setBudgetInput(String(budget.daily.total)); setShowBudgetModal(true); }}
-                className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-2"
-              >
-                <span>📊</span> daily budget: ₱{budget.daily.total.toLocaleString()}
-              </button>
             </div>
           )}
 
