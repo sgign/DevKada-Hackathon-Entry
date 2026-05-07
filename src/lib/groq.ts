@@ -73,10 +73,10 @@ Return ONLY a JSON object in this format:
   }
 }
 
-export async function getSpendingAdvice(transactions: any[]) {
+export async function getSpendingAdvice(transactions: any[], budgetInfo?: any, goalsInfo?: any) {
   if (!groq) throw new Error("AI features are currently unavailable.");
 
-  const summaryData = transactions.map(t => ({
+  const summaryData = transactions.slice(0, 20).map(t => ({
     type: t.type,
     amount: t.amount,
     category: t.category,
@@ -84,21 +84,30 @@ export async function getSpendingAdvice(transactions: any[]) {
   }));
 
   const systemPrompt = `
-You are a witty and helpful financial coach for a piggy bank app.
-Analyze the user's recent transactions and provide:
-1. A quick summary of their spending behavior.
-2. 3 actionable tips to save more money.
-3. A motivational "pig-themed" quote.
+You are Chicha, a witty and helpful financial coach for a piggy bank app.
+Analyze the user's data and provide:
+1. A quick summary of their behavior.
+2. If they are over budget, suggest cutting specific unnecessary expenses.
+3. If they are following their budget or hit a goal, commend them warmly!
+4. 3 actionable tips to save even more.
+5. A motivational "pig-themed" quote.
 
 Keep the advice concise, encouraging, and easy to read. 
-Use Markdown for formatting.
+Do NOT use markdown headers (###) or bolding (***).
+Use plain text for headings.
 `;
+
+  const userData = {
+    transactions: summaryData,
+    budget: budgetInfo,
+    goals: goalsInfo
+  };
 
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: `Here are my recent transactions: ${JSON.stringify(summaryData)}` }
+        { role: "user", content: `Analyze my financial status: ${JSON.stringify(userData)}` }
       ],
       model: "llama-3.3-70b-versatile",
       temperature: 0.7,

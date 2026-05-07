@@ -5,9 +5,11 @@ import profilePic from '../../imports/Profile.png';
 
 interface AISpendingAdviceProps {
   transactions: any[];
+  budgetInfo: any;
+  goalsInfo: any;
 }
 
-export function AISpendingAdvice({ transactions }: AISpendingAdviceProps) {
+export function AISpendingAdvice({ transactions, budgetInfo, goalsInfo }: AISpendingAdviceProps) {
   const [advice, setAdvice] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +17,7 @@ export function AISpendingAdvice({ transactions }: AISpendingAdviceProps) {
     if (transactions.length === 0) return;
     setIsLoading(true);
     try {
-      const result = await getSpendingAdvice(transactions);
+      const result = await getSpendingAdvice(transactions, budgetInfo, goalsInfo);
       setAdvice(result);
     } catch (error) {
       console.error("Failed to get AI advice:", error);

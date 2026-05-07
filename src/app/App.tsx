@@ -1002,7 +1002,11 @@ export default function App() {
               </div>
 
               {/* AI Spending Advice */}
-              <AISpendingAdvice transactions={transactions} />
+              <AISpendingAdvice 
+                transactions={transactions} 
+                budgetInfo={budget}
+                goalsInfo={selectedFarm.pigGoals}
+              />
 
               {/* Subscriptions Section */}
               <SubscriptionsSection 
