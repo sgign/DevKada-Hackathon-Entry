@@ -17,9 +17,10 @@ interface WalletDetailModalProps {
   transactions: Transaction[];
   style: { bg: string; icon: string; bgIcon: React.ReactNode; bgIconClass: string };
   onClose: () => void;
+  onDelete: () => void;
 }
 
-export function WalletDetailModal({ walletName, balance, transactions, style, onClose }: WalletDetailModalProps) {
+export function WalletDetailModal({ walletName, balance, transactions, style, onClose, onDelete }: WalletDetailModalProps) {
   const filteredTransactions = transactions.filter(t => t.wallet === walletName);
   
   const totalSpent = filteredTransactions
@@ -81,6 +82,18 @@ export function WalletDetailModal({ walletName, balance, transactions, style, on
               </div>
             )}
           </div>
+
+          {/* Delete Button */}
+          <button
+            onClick={() => {
+              if (window.confirm(`Are you sure you want to remove ${walletName}? This will delete all its data.`)) {
+                onDelete();
+              }
+            }}
+            className="w-full bg-[#E8D5B7] hover:bg-[#D32F2F] hover:text-white border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[9px] text-[#D32F2F] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-2 group"
+          >
+            <span className="group-hover:animate-bounce">🗑️</span> DELETE ACCOUNT
+          </button>
         </div>
       </div>
     </div>

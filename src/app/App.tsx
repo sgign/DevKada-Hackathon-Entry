@@ -15,6 +15,7 @@ import { AddDebtModal } from './components/AddDebtModal';
 import { DebtCompletionModal } from './components/DebtCompletionModal';
 import { PigGoalModal } from './components/PigGoalModal';
 import { AddPigGoalModal } from './components/AddPigGoalModal';
+import { AddMoneyToGoalModal } from './components/AddMoneyToGoalModal';
 import { AddWalletModal } from './components/AddWalletModal';
 import { ReceiptScannerModal } from './components/ReceiptScannerModal';
 import { WalletDetailModal } from './components/WalletDetailModal';
@@ -129,6 +130,7 @@ export default function App() {
   const [showAddDebtModal, setShowAddDebtModal] = useState(false);
   const [showAddWalletModal, setShowAddWalletModal] = useState(false);
   const [showAddGoalModal, setShowAddGoalModal] = useState(false);
+  const [showAddMoneyToGoalModal, setShowAddMoneyToGoalModal] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showBudgetModal, setShowBudgetModal] = useState(false);
@@ -613,6 +615,46 @@ export default function App() {
     setShowAddGoalModal(false);
   };
 
+  const handleFeedPig = (data: { amount: number; wallet: string }) => {
+    if (selectedPigIndex === null) return;
+
+    const goal = selectedFarm.pigGoals[selectedPigIndex];
+    if (!goal) return;
+
+    // 1. Update goal progress
+    setFarms(prev => prev.map(farm => {
+      if (farm.id === selectedFarmId) {
+        const newPigGoals = [...farm.pigGoals];
+        newPigGoals[selectedPigIndex] = {
+          ...goal,
+          savedAmount: goal.savedAmount + data.amount
+        };
+        return { ...farm, pigGoals: newPigGoals };
+      }
+      return farm;
+    }));
+
+    // 2. Deduct from wallet
+    setWalletBalances(prev => ({
+      ...prev,
+      [data.wallet]: (prev[data.wallet] || 0) - data.amount
+    }));
+
+    // 3. Add transaction
+    const newTransaction: Transaction = {
+      id: Date.now(),
+      category: goal.emoji,
+      description: `Fed pig: ${goal.name}`,
+      wallet: data.wallet,
+      amount: data.amount,
+      time: 'Just now',
+      type: 'expense'
+    };
+    setTransactions(prev => [newTransaction, ...prev]);
+
+    setShowAddMoneyToGoalModal(false);
+  };
+
   const handleAddSubscription = (subData: {
     name: string;
     amount: number;
@@ -631,6 +673,25 @@ export default function App() {
 
   const handleDeleteSubscription = (id: number) => {
     setSubscriptions(prev => prev.filter(sub => sub.id !== id));
+  };
+
+  const handleDeleteWallet = (walletName: string) => {
+    // 1. Remove from balances
+    setWalletBalances(prev => {
+      const next = { ...prev };
+      delete next[walletName];
+      return next;
+    });
+
+    // 2. Remove from metadata
+    setWalletMetadata(prev => {
+      const next = { ...prev };
+      delete next[walletName];
+      return next;
+    });
+
+    // 3. Clear selected wallet
+    setSelectedWallet(null);
   };
 
   // Helper for dynamic wallet styles
@@ -919,10 +980,6 @@ export default function App() {
                       <p className="font-['Press_Start_2P'] text-[10px] text-[#2E7D32] mb-1">₱{monthlyStats.totalIncome.toLocaleString()}</p>
                       <p className="text-[7px] text-[#6D4C41]">Total Income</p>
                     </div>
-                  </div>
-                  <div className="bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg p-3 text-center">
-                    <p className="font-['Press_Start_2P'] text-[10px] text-[#D2691E] mb-1">{monthlyStats.transactionCount}</p>
-                    <p className="text-[7px] text-[#6D4C41]">Total Transactions</p>
                   </div>
                   {monthlyStats.topCategory && (
                     <div className="bg-[#FFF9E6] border-3 border-[#8D6E63] rounded-lg p-3">
@@ -1423,6 +1480,17 @@ export default function App() {
           pigNumber={selectedPigIndex + 1}
           goal={selectedFarm.pigGoals[selectedPigIndex]}
           onClose={() => setSelectedPigIndex(null)}
+          onAddMoney={() => setShowAddMoneyToGoalModal(true)}
+        />
+      )}
+
+      {/* Add Money to Goal Modal */}
+      {showAddMoneyToGoalModal && selectedPigIndex !== null && selectedFarm.pigGoals[selectedPigIndex] && (
+        <AddMoneyToGoalModal
+          goalName={selectedFarm.pigGoals[selectedPigIndex].name}
+          wallets={Object.keys(walletBalances)}
+          onClose={() => setShowAddMoneyToGoalModal(false)}
+          onSubmit={handleFeedPig}
         />
       )}
 
@@ -1442,6 +1510,7 @@ export default function App() {
           transactions={transactions}
           style={getWalletStyle(selectedWallet, Object.keys(walletBalances).indexOf(selectedWallet))}
           onClose={() => setSelectedWallet(null)}
+          onDelete={() => handleDeleteWallet(selectedWallet)}
         />
       )}
 

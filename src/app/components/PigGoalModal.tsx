@@ -10,9 +10,10 @@ interface PigGoalModalProps {
     deadline: string;
   };
   onClose: () => void;
+  onAddMoney: () => void;
 }
 
-export function PigGoalModal({ pigNumber, goal, onClose }: PigGoalModalProps) {
+export function PigGoalModal({ pigNumber, goal, onClose, onAddMoney }: PigGoalModalProps) {
   const percentage = (goal.savedAmount / goal.targetAmount) * 100;
   const remaining = goal.targetAmount - goal.savedAmount;
 
@@ -92,13 +93,21 @@ export function PigGoalModal({ pigNumber, goal, onClose }: PigGoalModalProps) {
             </div>
           </div>
 
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="w-full bg-[#A8D5BA] hover:bg-[#A8D5BA]/80 border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[10px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[2px_2px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
-          >
-            CLOSE
-          </button>
+          {/* Action Buttons */}
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="flex-1 bg-[#E8D5B7] hover:bg-[#D4B896] border-4 border-[#8D6E63] rounded-lg py-3 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            >
+              CLOSE
+            </button>
+            <button
+              onClick={onAddMoney}
+              className="flex-1 bg-[#FFD966] hover:bg-[#FFD966]/80 border-4 border-[#3E2723] rounded-lg py-3 font-['Press_Start_2P'] text-[8px] text-[#3E2723] shadow-[4px_4px_0_0_#6D4C41] active:shadow-[1px_1px_0_0_#6D4C41] active:translate-x-[2px] active:translate-y-[2px] transition-all flex items-center justify-center gap-1"
+            >
+              <span>💰</span> FEED PIG
+            </button>
+          </div>
         </div>
       </div>
     </div>
